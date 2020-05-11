@@ -1,0 +1,40 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: auth-8085
+  datasource:
+    username: yuanbaojian
+    password: 312ybj
+    url: jdbc:mysql://yuanbaojian.xyz:3306/helloWorld?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone = GMT%2B8
+    type: com.alibaba.druid.pool.DruidDataSource
+  redis:
+    host: yuanbaojian.xyz
+    port: 6379
+    password: 312ybj
+    database: 0
+    jedis:
+      pool:
+        # 连接池中的最小空闲连接，默认值也是0
+        min-idle: 8
+        # 连接池中的最大空闲连接，默认值也是0
+        max-idle: 500
+        # 连接池最大连接数
+        max-active: 2000
+        # 最长等待时间 ms
+        max-wait: 100000
+    timeout: 100000
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka
+
+  instance:
+    instance-id: auth-8085
+    prefer-ip-address: true
+
+mybatis-plus:
+  mapper-locations: classpath:com/ybj/auth/mapping/*.xml , classpath:com/ybj/crawler/mapping/*.xml
+  type-aliases-package: com.ybj.auth.model,  com.ybj.crawler.model

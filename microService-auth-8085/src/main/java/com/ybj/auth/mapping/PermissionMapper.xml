@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ybj.auth.dao.PermissionMapper" >
+  <resultMap id="BaseResultMap" type="com.ybj.auth.model.Permission" >
+    <id column="OID" property="oid" jdbcType="VARCHAR" />
+    <result column="PERMISSION_CODE" property="permissionCode" jdbcType="VARCHAR" />
+    <result column="PERMISSION_NAME" property="permissionName" jdbcType="VARCHAR" />
+    <result column="PARENT_ID" property="parentId" jdbcType="VARCHAR" />
+    <result column="SORT_ID" property="sortId" jdbcType="DECIMAL" />
+  </resultMap>
+
+  <select id="selectPermissionByUser" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select DISTINCT TP.PERMISSION_CODE,TP.PERMISSION_NAME 
+    from TBL_PERMISSION TP ,ROLE_PERMISSION RP ,TBL_USER_ROLE TUR,TBL_USER TU
+    where TU.USER_ID = #{userId,jdbcType=VARCHAR}
+      AND TUR.USER_ID = TU.USER_ID(+)
+      AND RP.ROLE_ID = TUR.ROLE_ID(+)
+	  AND RP.PERMISSION_ID = TP."OID"(+)
+  </select>
+
+</mapper>

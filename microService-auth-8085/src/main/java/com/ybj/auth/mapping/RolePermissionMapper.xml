@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ybj.auth.dao.RolePermissionMapper" >
+  <resultMap id="BaseResultMap" type="com.ybj.auth.model.RolePermission" >
+    <id column="ROLE_ID" property="roleId" jdbcType="VARCHAR" />
+    <id column="PERMISSION_ID" property="permissionId" jdbcType="VARCHAR" />
+    <result column="PERMISSION_NAME" property="permissionName" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="getPermissionByRoleId" resultMap="BaseResultMap"  parameterType="java.lang.String">
+    select tp.PERMISSION_NAME
+    from ROLE_PERMISSION rp
+    left join TBL_PERMISSION tp on tp.OID = rp.PERMISSION_ID
+    where rp.ROLE_ID = #{OID}
+  </select>
+
+</mapper>

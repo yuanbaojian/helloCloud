@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atoz.mpm.system.authentication.dao.UserMapper" >
+    <resultMap id="BaseResultMap" type="com.atoz.mpm.system.authentication.model.User" >
+        <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+        <result column="LOGIN_NAME" property="loginName" jdbcType="VARCHAR" />
+        <result column="USER_FULL_NAME" property="userFullName" jdbcType="VARCHAR" />
+        <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+        <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+        <result column="MOBILE_PHONE" property="mobilePhone" jdbcType="VARCHAR" />
+        <result column="STATUS" property="status" jdbcType="DECIMAL" />
+        <result column="STATUS_NAME" property="statusName" jdbcType="VARCHAR" />
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="CREATED_BY" property="createdBy" jdbcType="VARCHAR" />
+        <result column="UPDATED_BY" property="updatedBy" jdbcType="VARCHAR" />
+        <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="FAIL_COUNT" property="failCount" jdbcType="DECIMAL" />
+        <result column="LAST_LOGIN_TIME" property="lastLoginTime" jdbcType="TIMESTAMP" />
+        <result column="SECURITY_LEVEL" property="securityLevel" jdbcType="DECIMAL" />
+        <result column="SECURITY_LEVEL_NAME" property="securityLevelName" jdbcType="VARCHAR" />
+        <result column="DELETED" property="deleted" jdbcType="DECIMAL" />
+        <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+        <result column="ORG_NAME" property="orgName" jdbcType="VARCHAR" />
+        <collection property="userRoles" ofType="com.atoz.mpm.system.authentication.model.UserRole"
+            column="USER_ID" select="com.atoz.mpm.system.authentication.dao.UserRoleMapper.getRoleByUserId">
+        </collection>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+		USER_ID,LOGIN_NAME, USER_FULL_NAME, PASSWORD,EMAIL,
+		MOBILE_PHONE,STATUS,CREATE_TIME, CREATED_BY,
+		UPDATED_BY, UPDATE_TIME, FAIL_COUNT,LAST_LOGIN_TIME,SECURITY_LEVEL,DELETED
+    </sql>
+
+    <update id="updateSpecificOrgIdToNull">
+      update TBL_USER t1
+        set t1.ORG_ID=null
+      where t1.ORG_ID=#{orgId}
+    </update>
+
+    <select id="getAll" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+            users.USER_ID,
+            users.LOGIN_NAME,
+            users.USER_FULL_NAME,
+            users.PASSWORD,
+            users.EMAIL,
+            users.MOBILE_PHONE,
+            users.STATUS,
+            decode(users.STATUS,'1','启用','禁用') STATUS_NAME,
+            users.CREATE_TIME,
+            users.CREATED_BY,
+            users.UPDATED_BY,
+            users.UPDATE_TIME,
+            users.FAIL_COUNT,
+            users.LAST_LOGIN_TIME,
+            users.SECURITY_LEVEL,
+            decode(users.SECURITY_LEVEL,0,'公开',1,'内部',2,'秘密',3,'机密',4,'绝密') SECURITY_LEVEL_NAME
+        from TBL_USER users
+        where users.DELETED = 0
+        <if test="null != searchParams.admin and '' != searchParams.admin">
+            AND users.LOGIN_NAME <![CDATA[<>]]> #{searchParams.admin}
+        </if>
+        <if test="null != searchParams.columnFilters">
+            <foreach collection="searchParams.columnFilters.entrySet()" index="key" item="value">
+                <if test="key != 'UPDATE_TIME' and ''!=value">
+                    AND lower(users.${key}) like '%'||lower(#{value})||'%'
+                </if>
+                <if test="key == 'UPDATE_TIME' and ''!=value">
+                    AND to_char(users.${key},'YYYY-MM-DD HH24:MI:SS') like '%'||#{value}||'%'
+                </if>
+            </foreach>
+        </if>
+        <if test="null != searchParams.sortField and '' != searchParams.sortField">
+            order by users.${searchParams.sortField} ${searchParams.sortType}
+        </if>
+    </select>
+
+    <select id="searchAuditor" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+            users.USER_ID,
+            users.LOGIN_NAME,
+            users.USER_FULL_NAME,
+            users.STATUS,
+            decode(users.STATUS,'1','启用','禁用') STATUS_NAME,
+            users.SECURITY_LEVEL,
+            decode(users.SECURITY_LEVEL,0,'公开',1,'内部',2,'秘密',3,'机密',4,'绝密') SECURITY_LEVEL_NAME,
+            userRole.ROLE_ID,
+            roles.ROLE_NAME ROLE_NAME,
+            permission.permission_name
+        from TBL_USER users
+        inner join TBL_USER_ROLE userRole
+        on
+        <if test="admin != null and admin!=''">
+            users.LOGIN_NAME <![CDATA[<>]]> #{admin} AND
+        </if>
+        users.DELETED = 0 and
+        userRole.USER_ID = users.USER_ID
+        inner join TBL_ROLE roles
+        on roles.oid = userRole.ROLE_ID
+        inner join ROLE_PERMISSION rolePermission
+        on  rolePermission.ROLE_ID = roles.oid
+        inner join TBL_PERMISSION permission
+        on permission.oid = rolePermission.PERMISSION_ID
+        and permission.permission_code =  #{type}
+    </select>
+
+    <select id="searchUser" resultMap="BaseResultMap">
+        select
+            users.USER_ID,
+            users.LOGIN_NAME,
+            users.USER_FULL_NAME,
+            users.STATUS,
+            decode(users.STATUS,'1','启用','禁用') STATUS_NAME,
+            users.SECURITY_LEVEL,
+            decode(users.SECURITY_LEVEL,0,'公开',1,'内部',2,'秘密',3,'机密',4,'绝密') SECURITY_LEVEL_NAME,
+            userRole.ROLE_ID,
+            roles.ROLE_NAME ROLE_NAME,
+            permission.permission_name
+        from TBL_USER users
+        inner join TBL_USER_ROLE userRole
+        on
+        <if test="admin != null and admin!=''">
+            users.LOGIN_NAME <![CDATA[<>]]> #{admin} AND
+        </if>
+        users.DELETED = 0 and
+        userRole.USER_ID = users.USER_ID
+        inner join TBL_ROLE roles
+        on roles.oid = userRole.ROLE_ID
+        inner join ROLE_PERMISSION rolePermission
+        on  rolePermission.ROLE_ID = roles.oid
+        inner join TBL_PERMISSION permission
+        on permission.oid = rolePermission.PERMISSION_ID
+    </select>
+
+    <select id="hasPermission" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+		select *
+        from TBL_USER users
+        inner join TBL_USER_ROLE userRole
+        on userRole.USER_ID = users.USER_ID
+        inner join TBL_ROLE roles
+        on roles.oid = userRole.ROLE_ID
+        inner join ROLE_PERMISSION rolePermission
+        on  rolePermission.ROLE_ID = roles.oid
+        inner join TBL_PERMISSION permission
+        on permission.oid = rolePermission.PERMISSION_ID and permission.PERMISSION_CODE = #{permissionName}
+        where users.USER_ID = #{userId}
+	</select>
+
+    <select id="getUserByOrg" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+         t1.USER_ID
+        ,t1.USER_FULL_NAME
+        ,t1.LOGIN_NAME
+        ,decode(t1.STATUS,'1','启用','禁用') STATUS_NAME
+        ,t1.EMAIL
+        ,t1.MOBILE_PHONE
+        ,t1.UPDATE_TIME
+        ,t2.ORG_NAME
+        from TBL_USER t1
+        left join TBL_ORG t2
+		on t1.ORG_ID = t2.ORG_ID
+        where t1.ORG_ID in (
+            select org.ORG_ID
+            from TBL_ORG org
+            start with org.ORG_ID = #{orgId}
+            connect by prior org.ORG_ID = org.PARENT_ID
+        ) and t1.DELETED=0
+    </select>
+
+    <select id="selectDirectlyUserByOrgId" resultMap="BaseResultMap">
+          SELECT
+        t1.USER_ID
+        ,t1.USER_FULL_NAME
+        ,t1.LOGIN_NAME
+        ,decode(t1.STATUS,'1','启用','禁用') STATUS_NAME
+        ,t1.EMAIL
+        ,t1.MOBILE_PHONE
+        ,t1.UPDATE_TIME
+        FROM TBL_USER t1
+        where  t1.DELETED=0 and  t1.ORG_ID=#{orgId}
+        ORDER BY t1.UPDATE_TIME
+    </select>
+
+    <select id="getUndistributedCrew" resultMap="BaseResultMap">
+          SELECT
+        t1.USER_ID
+        ,t1.USER_FULL_NAME
+        ,t1.LOGIN_NAME
+        ,decode(t1.STATUS,'1','启用','禁用') STATUS_NAME
+        ,t1.EMAIL
+        ,t1.MOBILE_PHONE
+        ,t1.UPDATE_TIME
+        FROM TBL_USER t1
+        where  t1.DELETED=0 and  t1.ORG_ID is null
+        ORDER BY t1.UPDATE_TIME
+    </select>
+
+</mapper>

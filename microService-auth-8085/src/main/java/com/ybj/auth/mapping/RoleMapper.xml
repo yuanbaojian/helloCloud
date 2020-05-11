@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ybj.auth.dao.RoleMapper" >
+  <resultMap id="BaseResultMap" type="com.ybj.auth.model.Role" >
+    <id column="OID" property="oid" jdbcType="VARCHAR" />
+    <result column="ROLE_NAME" property="roleName" jdbcType="VARCHAR" />
+    <result column="ROLE_NO" property="roleNo" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATED_BY" property="createdBy" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATED_BY" property="updatedBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="CREATED_USER" property="createdUser" jdbcType="VARCHAR" />
+    <result column="UPDATED_USER" property="updatedUser" jdbcType="VARCHAR" />
+     <collection property="rolePermission" ofType="com.ybj.auth.model.RolePermission"
+                 column="OID" select="com.ybj.mpm.system.authentication.dao.UserRoleMapper.getPermissionByRoleId">
+
+	</collection>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    OID, ROLE_NAME, ROLE_NO, REMARK, CREATED_BY, CREATE_TIME, UPDATED_BY, UPDATE_TIME
+  </sql>
+
+  <select id="getAll" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select tr.OID, tr.ROLE_NAME, tr.REMARK
+    from TBL_ROLE tr
+    <if test="null != searchParams.columnFilters and '' != searchParams.columnFilters">
+      <foreach collection="searchParams.columnFilters.entrySet()" index="key" item="value">
+        <![CDATA[ AND tr.${key} like  '%'||#{value}||'%' ]]>
+      </foreach>
+    </if>
+    <if test="null != searchParams.sortField and '' != searchParams.sortField">
+      order by tr.${searchParams.sortField} ${searchParams.sortType}
+    </if>
+
+  </select>
+
+
+</mapper>

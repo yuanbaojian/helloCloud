@@ -1,0 +1,56 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: gateWay-8084
+  redis:
+    host: yuanbaojian.xyz
+    port: 6379
+    password: 312ybj
+    database: 0
+    jedis:
+      pool:
+        # 连接池中的最小空闲连接，默认值也是0
+        min-idle: 8
+        # 连接池中的最大空闲连接，默认值也是0
+        max-idle: 500
+        # 连接池最大连接数
+        max-active: 2000
+        # 最长等待时间 ms
+        max-wait: 100000
+    timeout: 100000
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: auth-8085
+          uri: lb://auth-8085
+          predicates:
+          - Path=/auth/**, /menu/**
+        - id: dept-8081
+          uri: lb://dept-8081
+          predicates:
+          - Path=/dept/**
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka
+
+  instance:
+    instance-id: auth-8085
+    prefer-ip-address: true
+
+gate:
+  ignore:
+    startWith: /static,/auth
+
+logging:
+  level:
+    com.ybj.gateWay.gateWay: debug
+
+
+
+

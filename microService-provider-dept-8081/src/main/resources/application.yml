@@ -5,7 +5,7 @@ eureka:
       defaultZone: http://localhost:7001/eureka
 
   instance:
-    instance-id: dept-8081
+    instance-id: dept-provider-8081
     prefer-ip-address: true
 
 spring:
@@ -17,3 +17,6 @@ info:
   company.name: ybj
   build.artifactId: $project.artifactId$
   build.version: $project.version$
+
+server:
+  port: 8081

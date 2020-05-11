@@ -1,0 +1,15 @@
+server:
+  port: 8082
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka
+
+  instance:
+    instance-id: dept-consumer-8082
+    prefer-ip-address: true
+
+spring:
+  application:
+    name: dept-80-consumer
