@@ -21,4 +21,6 @@ public interface BookService extends ElasticsearchRepository<Book,Integer> {
     List<Book> findAllByAuthor(String authorName);
 
     List<Book> findBooksByBookNameAndAuthor(String bookName, String author);
+
+    List<Book> findAllByBookNameLikeAndAndAuthorIsLike(String bookName, String author);
 }

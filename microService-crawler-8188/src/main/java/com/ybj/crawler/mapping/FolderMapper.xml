@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ybj.crawler.dao.FolderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ybj.crawler.model.Folder">
+        <id column="id" property="id" />
+        <result column="folderName" property="folderName" />
+        <result column="parent_id" property="parentId" />
+        <collection column="ID" property="treeNode" javaType="java.util.ArrayList"
+                    ofType="com.ybj.crawler.model.Folder" select="getNextNodeTree"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, folderName, parent_id
+    </sql>
+
+    <select id="getNextNodeTree" resultMap="BaseResultMap">
+        select  *
+        from TBL_FOLDER t1
+        where t1.PARENT_ID = #{ID}
+    </select>
+
+    <select id="getAll" resultMap="BaseResultMap">
+        select *
+        from TBL_FOLDER t1
+        where  t1.PARENT_ID = 0
+    </select>
+
+</mapper>

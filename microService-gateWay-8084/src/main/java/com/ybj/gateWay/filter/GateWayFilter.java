@@ -1,13 +1,14 @@
-package com.ybj.gateWay.config;
+package com.ybj.gateWay.filter;
 
 import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.ybj.api.model.JsonResult;
+import com.ybj.gateWay.constants.AnonUrlEnum;
+import com.ybj.gateWay.constants.AuthConstants;
+import com.ybj.gateWay.constants.JsonResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -25,69 +26,53 @@ import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @Author gateWayFilter
- * @Description //TODO $
- * @Date $ $
- * @Param $
- * @return $
- **/
+ * 网关过滤器
+ * 往网关发送的请求
+ *   1. yml中未匹配到的URL ---404
+ *   2. yml中匹配到的URL&&对应模块未启动 ---503
+ *   3. yml中匹配到额URL&&对应模块启动 ---进入filter
+ * @author yuanbaojian
+ * @date 2020/4/16
+ * @time 14:23
+ */
 @Slf4j
 @Component
-public class gateWayFilter implements GlobalFilter,Ordered{
-
-    @Value("${gate.ignore.startWith}")
-    private String startWith;
+public class GateWayFilter implements GlobalFilter,Ordered{
 
     @Autowired
     StringRedisTemplate stringRedisTemplate;
 
-    private static final String GATE_WAY_PREFIX = "/api";
-
     @Override
-    public Mono<Void> filter(
-            ServerWebExchange serverWebExchange, GatewayFilterChain gatewayFilterChain) {
+    public Mono<Void> filter(ServerWebExchange serverWebExchange, GatewayFilterChain gatewayFilterChain) {
         ServerHttpRequest request = serverWebExchange.getRequest();
         String requestUri = request.getURI().getPath();
         ServerHttpRequest.Builder mutate = request.mutate();
-        // 不进行拦截的地址
-        if (isStartWith(requestUri)) {
-            ServerHttpRequest build = mutate.build();
-            return gatewayFilterChain.filter(serverWebExchange.mutate().request(build).build());
+        // 可以直接放行的URL
+        for (AnonUrlEnum url : AnonUrlEnum.values()){
+            if(requestUri.contains(url.getValue())){
+                ServerHttpRequest build = mutate.build();
+                return gatewayFilterChain.filter(serverWebExchange.mutate().request(build).build());
+            }
         }
         try {
-            //此处可能npe错误
             String token= request.getHeaders().get("Authorization").get(0);
             String loginName = getLoginName(token);
-            String redisKey = "LoginToken_" + loginName;
+            String redisKey = AuthConstants.TOKEN_PREFIX + loginName;
             String redisToken = stringRedisTemplate.opsForValue().get(redisKey);
+            // token过期
             if(redisToken == null){
-                return getVoidMono(serverWebExchange, JsonResult.fail("toen失效"));
+                return getVoidMono(serverWebExchange, JsonResult.tokenExpired("您的会话已失效请重新登录!"));
             } else{
+                // 更新token时间
                 stringRedisTemplate.expire(redisKey, 30L, TimeUnit.MINUTES);
             }
         } catch (Exception e) {
-            log.error("用户Token过期异常", e);
-            return getVoidMono(serverWebExchange, JsonResult.fail("token已过期"));
+            // token为null
+            return getVoidMono(serverWebExchange, JsonResult.tokenIsNull("请携带凭证信息进行资源请求!"));
         }
         return gatewayFilterChain.filter(serverWebExchange);
-
     }
 
-    /**
-     * URI是否以什么打头
-     *
-     * @param requestUri
-     * @return
-     */
-    private boolean isStartWith(String requestUri) {
-        boolean flag = false;
-        for (String s : startWith.split(",")) {
-            if (requestUri.startsWith(s)) {
-                return true;
-            }
-        }
-        return flag;
-    }
 
     @Override
     public int getOrder() {
@@ -105,7 +90,8 @@ public class gateWayFilter implements GlobalFilter,Ordered{
     }
 
     /**
-     * 网关抛异常
+     * 网关直接向前台发送消息
+     * 不进行服务转发
      *
      * @param body
      */

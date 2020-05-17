@@ -29,11 +29,15 @@ spring:
         - id: auth-8085
           uri: lb://auth-8085
           predicates:
-          - Path=/auth/**, /menu/**
+          - Path=/auth/**, /menu/**, /user/**
         - id: dept-8081
           uri: lb://dept-8081
           predicates:
           - Path=/dept/**
+        - id: crawler-8188
+          uri: lb://crawler-8188
+          predicates:
+          - Path=/bus/**, /folder/**, /IpBean/**
 eureka:
   client:
     service-url:

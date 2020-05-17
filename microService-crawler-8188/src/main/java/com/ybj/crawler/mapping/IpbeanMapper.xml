@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ybj.crawler.dao.IpBeanMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ybj.crawler.model.IpBean">
+        <result column="IP_ADDRESS" property="ipAddress" />
+        <result column="IP_PORT" property="ipPort" />
+        <result column="SERVER_ADDRESS" property="serverAddress" />
+        <result column="ANONY_TYPE" property="anonyType" />
+        <result column="PROTOCOL_TYPE" property="protocolType" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        IP_ADDRESS, IP_PORT, SERVER_ADDRESS, ANONY_TYPE, PROTOCOL_TYPE
+    </sql>
+
+</mapper>

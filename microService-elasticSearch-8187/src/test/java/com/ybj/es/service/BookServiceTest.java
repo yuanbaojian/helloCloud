@@ -44,7 +44,7 @@ class BookServiceTest {
     public void test2(){
         List<Book> bookList =  bookService.findBooksByBookName("唐");
         for (Book book : bookList) {
-          System.out.println("book = " + book);
+            System.out.println("book = " + book);
         }
     }
 
@@ -56,4 +56,21 @@ class BookServiceTest {
         System.out.println("book1.toString() = " + book1.toString());
     }
 
+    @Test
+    void findBooksByBookName() {}
+
+    @Test
+    void findBooksByBookNameLike() {}
+
+    @Test
+    void findAllByAuthor() {}
+
+    @Test
+    void findBooksByBookNameAndAuthor() {}
+
+    @Test
+    void findAllByBookNameLikeAndAndAuthorIsLike() {
+        List<Book> bookList = bookService.findAllByBookNameLikeAndAndAuthorIsLike("米", "虎");
+        System.out.println("bookList = " + bookList);
+    }
 }
