@@ -1,17 +1,23 @@
 package com.ybj.es.service;
 
 import com.ybj.es.model.Book;
+import com.ybj.es.model.User;
+import org.elasticsearch.index.query.MatchAllQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
+import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 class BookServiceTest {
@@ -73,4 +79,18 @@ class BookServiceTest {
         List<Book> bookList = bookService.findAllByBookNameLikeAndAndAuthorIsLike("米", "虎");
         System.out.println("bookList = " + bookList);
     }
+
+    //    分页
+    @Test
+    public void pageSearch(){
+        MatchAllQueryBuilder matchAllQueryBuilder = QueryBuilders.matchAllQuery();
+        SearchQuery searchQuery = new NativeSearchQuery(matchAllQueryBuilder)
+                .setPageable(PageRequest.of(1,10));
+        Page<Book> books = bookService.search(searchQuery);
+        for (Book book : books) {
+            System.out.println("book.toString() = " + book.toString());
+        }
+    }
+
+
 }

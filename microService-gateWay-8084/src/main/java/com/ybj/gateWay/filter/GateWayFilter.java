@@ -49,10 +49,10 @@ public class GateWayFilter implements GlobalFilter,Ordered{
         ServerHttpRequest.Builder mutate = request.mutate();
         // 可以直接放行的URL
         for (AnonUrlEnum url : AnonUrlEnum.values()){
-            if(requestUri.contains(url.getValue())){
+            // if(requestUri.contains(url.getValue())){
                 ServerHttpRequest build = mutate.build();
                 return gatewayFilterChain.filter(serverWebExchange.mutate().request(build).build());
-            }
+            // }
         }
         try {
             String token= request.getHeaders().get("Authorization").get(0);

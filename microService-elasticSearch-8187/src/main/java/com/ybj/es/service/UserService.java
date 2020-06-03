@@ -20,6 +20,12 @@ public interface UserService extends ElasticsearchRepository<User , String> {
 
     List<User> findByUserName(String userName);
 
+    List<User> findAllByUserNameLike(String userName);
+
+    List<User> findUsersByUserNameLike(String userName);
+
+    List<User> findByUserNameLike(String userName);
+
     List<User> findAllByUserNameLikeAndEmailLike(String userName, String email);
 
 }
