@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ybj.redPacket.dao.RedPacketMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ybj.redPacket.model.RedPacket">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="amount" property="amount" />
+        <result column="send_date" property="sendDate" />
+        <result column="total" property="total" />
+        <result column="unit_amount" property="unitAmount" />
+        <result column="stock" property="stock" />
+        <result column="version" property="version" />
+        <result column="note" property="note" />
+    </resultMap>
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, user_id, amount, send_date, total, unit_amount, stock, version, note
+    </sql>
+
+    <update id="decreaseRedPacket">
+        update T_RED_PACKET set stock = stock - 1 where id = #{id}
+    </update>
+
+    <update id="decreaseRedPacketForVersion">
+        update T_RED_PACKET set stock = stock - 1,
+        version = version + 1 where id = #{id} and version = #{version}
+
+    </update>
+
+    <select id="getRedPacketForUpdate" resultMap="BaseResultMap">
+        select * from t_red_packet t1
+        where t1.id = #{redPacketId} for update
+    </select>
+
+
+</mapper>

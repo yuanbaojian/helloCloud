@@ -28,7 +28,7 @@ public class t66y {
     public static void main(String[] args) throws Exception {
         String urlPrefix="http://t66y.com/thread0806.php?fid=7&search=&page=";
         int pageNumber=4;
-        for (int i = 2; i < pageNumber; i++) {
+        for (int i = 3; i < pageNumber; i++) {
             String url=urlPrefix+i;
             getPageURL(url);
             System.out.println("第 "+i+" 页下载完成" );

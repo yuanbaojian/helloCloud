@@ -4,3 +4,7 @@ spring:
     password: 312ybj
     url: jdbc:mysql://yuanbaojian.xyz:3306/helloWorld?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone = GMT%2B8
     type: com.alibaba.druid.pool.DruidDataSource
+logging:
+  file:
+    name: logback-crawler.log
+    path: ./

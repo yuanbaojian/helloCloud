@@ -2,10 +2,13 @@ package com.ybj.crawler.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ybj.crawler.model.IpBean;
+import org.jsoup.select.Elements;
+import org.springframework.scheduling.annotation.AsyncResult;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.Future;
 
 /**
  * <p>
@@ -45,5 +48,8 @@ public interface IpBeanService extends IService<IpBean> {
      * @time 10:44
      */
     Set<IpBean> getValidIpByThread();
+
+    public Future<String> executeAsyncTaskWithResult(String param);
+
 
 }

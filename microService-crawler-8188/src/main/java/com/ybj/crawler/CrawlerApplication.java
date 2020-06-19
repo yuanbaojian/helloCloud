@@ -12,7 +12,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 
 
-@EnableScheduling
 @MapperScan({"com.ybj.crawler.dao"})
 @EnableAsync
 @EnableEurekaClient

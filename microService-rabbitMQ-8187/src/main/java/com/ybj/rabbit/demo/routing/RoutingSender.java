@@ -14,8 +14,8 @@ public class RoutingSender {
 
     public void send() {
         String context = "hello, time is " + LocalDateTime.now().toString();
-        System.out.println("Sender : " + context);
-        this.rabbitTemplate.convertAndSend("workQueue", context);
+        System.out.println("路由信息为 : " + context);
+        this.rabbitTemplate.convertAndSend("directs","info","发送key为info的路由信息");
     }
 
 }

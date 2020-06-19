@@ -3,6 +3,8 @@ package com.ybj.crawler.utils.Crawler.IPCrawler;
 import com.ybj.crawler.model.IpBean;
 import com.ybj.crawler.model.IpBeanList;
 import com.ybj.crawler.utils.NetWorkUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.scheduling.annotation.Async;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -14,6 +16,21 @@ public class IPUtils {
     private static String HTTP_API = "https://www.xicidaili.com/wt/";
 
     public static boolean isValid(IpBean ipBean) {
+        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(ipBean.getIpAddress(), ipBean.getIpPort()));
+        try {
+            URLConnection httpCon = new URL("https://www.baidu.com/").openConnection(proxy);
+            httpCon.setConnectTimeout(5000);
+            httpCon.setReadTimeout(5000);
+            int code = ((HttpURLConnection) httpCon).getResponseCode();
+            System.out.println(code);
+            return code == 200;
+        } catch (IOException e) {
+            System.out.println(ipBean.getIpAddress() + "  无效");
+        }
+        return false;
+    }
+
+    public  boolean checkIpValid(IpBean ipBean) {
         Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(ipBean.getIpAddress(), ipBean.getIpPort()));
         try {
             URLConnection httpCon = new URL("https://www.baidu.com/").openConnection(proxy);

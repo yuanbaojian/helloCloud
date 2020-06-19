@@ -45,4 +45,7 @@ class IpBeanControllerTest {
         List testIpList = redisTemplate.opsForList().range("testIpList", 1, 600);
         System.out.println("testIpList = " + testIpList);
     }
+
+  @Test
+  void testGetValidIp() {}
 }

@@ -1,5 +1,6 @@
 package com.ybj.crawler.model;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,8 +12,7 @@ import lombok.Setter;
  * @return $
  **/
 
-@Getter
-@Setter
+@Data
 public class BusInfo {
 
     String attributes;

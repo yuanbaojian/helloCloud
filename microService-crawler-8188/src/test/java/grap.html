@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>菜鸟教程(runoob.com)</title>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+    </script>
+    <script>
+        $(document).ready(function(){
+            $("button").click(function(){
+                console.log("发送")
+                var max = 30000;
+                for(var i=1; i<=max; i++){
+                    $.get({
+                        url:'userRedPacket/grapRedPacket?redPacketId=1&userId=11',
+                        success: function(result){
+                            console.log(result)
+                        }
+                    })
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+<button>发送请求</button>
+
+</body>
+</html>
