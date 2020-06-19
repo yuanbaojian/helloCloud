@@ -4,6 +4,7 @@ import com.ybj.es.model.Book;
 import com.ybj.es.model.User;
 import org.elasticsearch.repositories.Repository;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
  * @Param $
  * @return $
  **/
-public interface UserService extends ElasticsearchRepository<User , String> {
+public interface UserService extends CrudRepository<User , String> {
 
     List<User> findByUserNameAndEmail(String userName, String email);
 

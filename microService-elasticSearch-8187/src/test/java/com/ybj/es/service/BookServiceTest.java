@@ -1,17 +1,10 @@
 package com.ybj.es.service;
 
 import com.ybj.es.model.Book;
-import com.ybj.es.model.User;
-import org.elasticsearch.index.query.MatchAllQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
-import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -33,14 +26,14 @@ class BookServiceTest {
         book.setAuthor("曹雪芹");
         book.setBookName("红楼梦");
         book.setId(110);
-        bookService.index(book);
+        bookService.save(book);
 
         Random random = new Random();
         for(int i = 0; i < 100; i++) {
             book.setAuthor("唐伯虎");
             book.setBookName("小鸡啄米" + random.nextInt(100));
             book.setId(i);
-            bookService.index(book);
+            bookService.save(book);
         }
 
     }
@@ -83,13 +76,13 @@ class BookServiceTest {
     //    分页
     @Test
     public void pageSearch(){
-        MatchAllQueryBuilder matchAllQueryBuilder = QueryBuilders.matchAllQuery();
-        SearchQuery searchQuery = new NativeSearchQuery(matchAllQueryBuilder)
-                .setPageable(PageRequest.of(1,10));
-        Page<Book> books = bookService.search(searchQuery);
-        for (Book book : books) {
-            System.out.println("book.toString() = " + book.toString());
-        }
+        // MatchAllQueryBuilder matchAllQueryBuilder = QueryBuilders.matchAllQuery();
+        // SearchQuery searchQuery = new NativeSearchQuery(matchAllQueryBuilder)
+        //         .setPageable(PageRequest.of(1,10));
+        // Page<Book> books = bookService.search(searchQuery);
+        // for (Book book : books) {
+        //     System.out.println("book.toString() = " + book.toString());
+        // }
     }
 
 

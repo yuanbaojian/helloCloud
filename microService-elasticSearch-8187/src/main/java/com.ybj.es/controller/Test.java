@@ -25,6 +25,6 @@ public class Test {
         book.setAuthor("曹雪芹");
         book.setBookName("红楼梦");
         book.setId(110);
-        bookService.index(book);
+        // bookService.index(book);
     }
 }
