@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 @Data
 @ToString
-@Document( indexName = "tomcat-log" , type="_doc" )
+@Document( indexName = "om-system-log")
 public class TomcatLog {
 
     @Id

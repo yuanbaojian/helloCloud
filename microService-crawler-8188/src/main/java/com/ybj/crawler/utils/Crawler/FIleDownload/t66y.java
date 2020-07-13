@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.HashMap;
 
 /**
  * @Author Jsoup
@@ -33,6 +34,7 @@ public class t66y {
             getPageURL(url);
             System.out.println("第 "+i+" 页下载完成" );
         }
+        new HashMap();
     }
 
 
@@ -49,6 +51,8 @@ public class t66y {
             String targetURL = elements.get(i).attr("href");
             startDownload(URLPrefix + targetURL);
         }
+
+
     }
 
 

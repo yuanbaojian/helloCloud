@@ -26,7 +26,7 @@ public class SwaggerConfig {
             return new Docket(DocumentationType.SWAGGER_2)
                     .apiInfo(getApiInfo())
                     .select()
-                    .apis(RequestHandlerSelectors.basePackage("com.atoz.mpm"))
+                    .apis(RequestHandlerSelectors.basePackage("com.ybj"))
                     .paths(PathSelectors.any())
                     .build();
         }

@@ -40,7 +40,7 @@ public class BusController {
 
     @ApiOperation(value = "获得759信息")
     @GetMapping(value = "/busInfo")
-    public JsonResult getBusInfo() throws Exception {
+    public JsonResult getBusInfo(String param1) throws Exception {
         String path = "https://shanghaicity.openservice.kankanews.com/public/bus/Getstop?stoptype=0&stopid=10.&sid=7019f275eae92b302744ade1ac88763a";
         BusInfo busInfo = HttpURLConnection_GET(path);
         return JsonResult.ok().addData(busInfo);

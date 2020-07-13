@@ -1,12 +1,11 @@
 server:
-  port: 8189
+  port: 8287
   tomcat:
     uri-encoding: UTF-8
-    max-threads: 100000
     max-connections: 200000
 spring:
   application:
-    name: crawler-8188
+    name: redPacket
 
   profiles:
     active: ybj
@@ -33,9 +32,15 @@ spring:
     jest:
       uris: http://127.0.0.1:9200
 
-
-
 mybatis-plus:
   mapper-locations: classpath:com/ybj/redPacket/mapping/*.xml
   type-aliases-package: com.ybj.redPacket.model
 
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka
+
+  instance:
+    instance-id: redPacket
+    prefer-ip-address: true

@@ -1,11 +1,13 @@
 package com.ybj.crawler.Learn.ThinkingInJava.Ch14;
 
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 
 /**
  * Class对象的用法
@@ -13,6 +15,7 @@ import java.lang.reflect.Method;
  * @Param $
  * @return $
  **/
+@Slf4j
 public class Invoke {
 
   /**
@@ -40,161 +43,15 @@ public class Invoke {
       name.setAccessible(true);
       name.set(user1 , "杨过");
       user1.say();
-
+      Parameter[] parameters = c1.getMethods()[7].getParameters();
+      for(int i = 0; i < parameters.length; i++) {
+          Class<?> type = parameters[i].getType();
+          String name1 = parameters[i].getName();
+          log.info("类型为 {}, 形参名为 {}", type, name1);
+      }
 
       /**
-       * Unsatisfied depe
-       *+
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       * ndency expressed through constructor parameter 0: Could not convert argument value of type [java.lang.String] to required type [java.lang.Class]: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Class';
+       * Unsatisfied dependency expressed through constructor parameter 0: Could not convert argument value of type [java.lang.String] to required type [java.lang.Class]: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Class';
        */
   }
 }
@@ -204,5 +61,9 @@ class user{
     private  int age;
     public void say(){
         System.out.println("hello " + this.name );
+    }
+
+    public void sayHello(String userName){
+        System.out.println("hello " + name);
     }
 }

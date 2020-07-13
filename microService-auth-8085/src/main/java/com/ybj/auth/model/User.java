@@ -89,4 +89,6 @@ public class User  implements Serializable{
 	@TableField(exist = false)
 	private String pwd;
 
+	private Integer balance;
+
 }

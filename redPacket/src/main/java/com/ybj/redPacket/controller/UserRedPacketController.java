@@ -53,6 +53,7 @@ public class UserRedPacketController {
         }
     }
 
+
     @GetMapping("/test")
     public JsonResult test(String redPacketId, String userId){
         String name = Thread.currentThread().getName();
@@ -79,7 +80,7 @@ public class UserRedPacketController {
         return JsonResult.ok("抢红包成功");
     }
 
-    @GetMapping("/testWithOutResult")
+    @GetMapping("/testWithOutResult2")
     public void test12(String redPacketId, String userId){
         LocalDateTime start = LocalDateTime.now();
         try {

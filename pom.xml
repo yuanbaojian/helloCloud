@@ -15,6 +15,8 @@
         <module>microService-rabbitMQ-8187</module>
         <module>microService-crawler-8188</module>
         <module>redPacket</module>
+        <module>mysqlStudy</module>
+        <module>algorithm</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -36,6 +38,10 @@
 
 <!--    子类直接继承-->
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>

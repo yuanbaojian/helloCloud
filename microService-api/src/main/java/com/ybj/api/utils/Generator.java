@@ -40,11 +40,11 @@ public class Generator {
         // 接口类命名是否以“I”开头
         boolean startWithi = false;
         // 1.模块名
-        String projectName = "redPacket";
+        String projectName = "mysqlStudy";
         // 2.代码位置
-        String packageName = "com.ybj.redPacket";
+        String packageName = "com.ybj.mysql";
         // 3.表名
-        String[] tableNameArray={"t_red_packet", "t_user_red_packet"} ;
+        String[] tableNameArray={"tbl_ip_bean"} ;
         g.generateByTables(startWithi, projectName, packageName, tableNameArray);
     }
 
@@ -147,7 +147,7 @@ public class Generator {
                 .setInclude(tableNames)
                 // 为属性加上TabeField注解，标明对应数据库字段
                 .setEntityTableFieldAnnotationEnable(true)
-                .setTablePrefix("MPM", "T", "SYS");
+                .setTablePrefix("MPM",  "SYS","TBL");
     }
 
     /**

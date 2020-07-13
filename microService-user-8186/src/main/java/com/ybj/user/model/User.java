@@ -99,4 +99,5 @@ public class User extends CommFields {
 	@TableField(exist = false)
 	private String orgName;
 
+	private Integer balance;
 }

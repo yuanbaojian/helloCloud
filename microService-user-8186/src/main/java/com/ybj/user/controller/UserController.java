@@ -31,6 +31,9 @@ import java.util.Map;
 @Api(value = "用户管理-包括新建、修改、查询用户等方法", tags={"用户管理操作接口"})
 public class UserController {
 
+    @Autowired
+    UserServiceI userService;
+
     @PostMapping(value = "/validate")
     public User validate(User User){
         User user = new User();
@@ -38,6 +41,12 @@ public class UserController {
         user.setLoginName("admin111");
         user.setPassword("123456");
         return user;
+    }
+
+    @GetMapping("/getAllUsers")
+    public List<User> getAllUsers(){
+        List<User> userList = userService.list();
+        return userList;
     }
 
 }

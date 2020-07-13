@@ -85,6 +85,17 @@ public class UserRedPacketServiceImpl extends ServiceImpl<UserRedPacketMapper, U
         return 0;
     }
 
+
+    /**
+    * <p>使用悲观锁
+     * for update</p>
+     * @param redPacketId
+     * @param userId
+     * @return int
+     * @author yuanbaojian
+     * @date 2020/7/13
+     * @time 17:00
+     */
     @Async
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override

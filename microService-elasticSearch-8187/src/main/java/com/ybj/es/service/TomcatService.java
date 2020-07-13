@@ -18,4 +18,5 @@ public interface TomcatService  extends CrudRepository<TomcatLog,String> {
 
     List<TomcatLog> findAllByMessageLike(String message);
 
+
 }

@@ -4,6 +4,7 @@ package com.ybj.crawler.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ybj.api.model.JsonResult;
+import com.ybj.crawler.annotation.GetExecutionTime;
 import com.ybj.crawler.model.IpBean;
 import com.ybj.crawler.service.IpBeanService;
 import com.ybj.crawler.service.IpBeanThreadService;
@@ -37,9 +38,6 @@ import java.util.concurrent.CompletableFuture;
 public class IpBeanController {
 
     private static String HTTP_API = "https://www.xicidaili.com/wt/";
-
-
-
 
     @Autowired
     IpBeanService ipBeanService;
@@ -76,6 +74,7 @@ public class IpBeanController {
      * 无需分页， 不用查mysql， 只从redis 拿
      * @throws IOException
      */
+    @GetExecutionTime
     @GetMapping("/getValidIp")
     public JsonResult getValidIp() throws IOException, InterruptedException {
        Set<IpBean> validIp = ipBeanService.getValidIpByAsyncMethod();

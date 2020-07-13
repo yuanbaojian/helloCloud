@@ -11,13 +11,9 @@ spring:
     database: 0
     jedis:
       pool:
-        # 连接池中的最小空闲连接，默认值也是0
         min-idle: 8
-        # 连接池中的最大空闲连接，默认值也是0
         max-idle: 500
-        # 连接池最大连接数
         max-active: 2000
-        # 最长等待时间 ms
         max-wait: 100000
     timeout: 100000
   cloud:
@@ -38,6 +34,10 @@ spring:
           uri: lb://crawler-8188
           predicates:
           - Path=/bus/**, /folder/**, /IpBean/**
+        - id: redPacket_router
+          uri: lb://redPacket
+          predicates:
+          - Path=/redPacket/**
 eureka:
   client:
     service-url:
