@@ -1,6 +1,5 @@
 server:
-  port: 8186
-
+  port: 8339
 eureka:
   client:
     service-url:
@@ -13,6 +12,34 @@ eureka:
 spring:
   application:
     name: user-8186
+
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: mqadmin
+    password: admin
+    publisher-returns: true
+    publisher-confirm-type: simple
+    listener:
+      simple:
+        acknowledge-mode: manual
+        retry:
+          enabled: true
+          max-attempts: 4
+  mail:
+    host: smtp.qq.com
+    username: 1793870688@qq.com
+    password: naxrczzcyytxgaed
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          connectiontimeout: 5000
+          starttls:
+            enable: true
+          timeout: 5000
+          writetimeout: 5000
 
   datasource:
     username: yuanbaojian

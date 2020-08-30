@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 
-
+@ComponentScan(basePackages = {"com.ybj.*"})
 @MapperScan({"com.ybj.crawler.dao"})
 @EnableAsync
 @EnableEurekaClient

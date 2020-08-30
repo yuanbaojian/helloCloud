@@ -17,6 +17,9 @@
         <module>redPacket</module>
         <module>mysqlStudy</module>
         <module>algorithm</module>
+        <module>springStudy</module>
+        <module>activiti</module>
+        <module>nacos</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -181,6 +184,7 @@
 
     <build>
         <finalName>hello Cloud</finalName>
+
     </build>
 
 </project>

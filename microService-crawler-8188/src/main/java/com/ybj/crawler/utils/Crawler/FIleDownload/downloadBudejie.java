@@ -2,6 +2,7 @@ package com.ybj.crawler.utils.Crawler.FIleDownload;
 
 
 import com.ybj.crawler.utils.NetWorkUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -21,6 +22,7 @@ import java.net.URL;
  * @Param $
  * @return $
  **/
+@Slf4j
 public class downloadBudejie {
 
     public static void main(String[] args) throws Exception {
@@ -28,6 +30,7 @@ public class downloadBudejie {
         int pageNumber=100;
         for (int i = 10; i < pageNumber; i++) {
             String url=urlPrefix+i;
+            log.info("URL为 {}", url);
             startDownload(url);
             System.out.println("第 "+i+" 页下载完成" );
         }
@@ -43,6 +46,7 @@ public class downloadBudejie {
         Elements elements = doc.select("div[class=j-r-list-c-img]").select("img");
         for (int i = 0; i <elements.size(); i++) {
             String targetURL = elements.get(i).attr("data-original");
+            log.info("图片URL {}",targetURL);
             download(targetURL);
             System.out.println("第 "+ i+ "项----" + targetURL);
         }

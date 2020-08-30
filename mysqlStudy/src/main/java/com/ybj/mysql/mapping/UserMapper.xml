@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ybj.mysql.dao.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ybj.mysql.model.User">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="phone" property="phone" />
+        <result column="address" property="address" />
+        <result column="age" property="age" />
+        <result column="loginName" property="loginName" />
+        <result column="password" property="password" />
+        <result column="gender" property="gender" />
+        <result column="idNo" property="idNo" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, phone, address, age, loginName, password, gender, idNo
+    </sql>
+    <select id="selectIdListByName" resultType="java.lang.String">
+        select id from tbl_user where name = #{name}
+    </select>
+    <select id="getUserWithRole" resultMap="BaseResultMap">
+        select * from tbl_user where id in ( select user_id from  tbl_user_role)
+    </select>
+
+    <select id="getUserWithRoleByExists" resultMap="BaseResultMap">
+    select t1.* from tbl_user t1 where exists ( select * from tbl_user_role t2 where  t1.id = t2.user_id)
+    </select>
+
+</mapper>

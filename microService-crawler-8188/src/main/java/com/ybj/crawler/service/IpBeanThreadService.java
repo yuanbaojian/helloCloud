@@ -1,7 +1,7 @@
 package com.ybj.crawler.service;
 
 import com.ybj.crawler.model.IpBean;
-import com.ybj.crawler.utils.Crawler.IPCrawler.IPUtils;
+import com.ybj.crawler.utils.Crawler.IPUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +63,7 @@ public class IpBeanThreadService {
 
     @Async
     public CompletableFuture<IpBean> checkIpValidByThreadPool(IpBean ipBean) {
-        IPUtils ipUtils = new IPUtils();
+        IPUtils ipUtils = IPUtils.getInstance();
         boolean valid = ipUtils.checkIpValid(ipBean);
         String threadName = Thread.currentThread().getName();
         if (valid) {

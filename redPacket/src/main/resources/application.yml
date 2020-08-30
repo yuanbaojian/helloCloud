@@ -1,5 +1,5 @@
 server:
-  port: 8287
+  port: 8889
   tomcat:
     uri-encoding: UTF-8
     max-connections: 200000
@@ -7,6 +7,13 @@ spring:
   application:
     name: redPacket
 
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: mqadmin
+    password: admin
+    publisher-returns: true
+    publisher-confirm-type: simple
   profiles:
     active: ybj
   redis:
@@ -44,3 +51,11 @@ eureka:
   instance:
     instance-id: redPacket
     prefer-ip-address: true
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 30000
+        readTimeout: 30000
+        loggerLevel: basic

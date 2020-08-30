@@ -1,0 +1,43 @@
+package com.ybj.mysql.config;
+
+import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.AsyncConfigurer;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.ThreadPoolExecutor;
+
+/**
+ * @description
+ * @create 2017-02-22 下午11:53
+ */
+@Configuration
+public class ThreadConfig implements AsyncConfigurer {
+
+    /**
+     * The {@link Executor} instance to be used when processing async
+     * method invocations.
+     */
+    @Override
+    public Executor getAsyncExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(8);
+        executor.setMaxPoolSize(16);
+        executor.setQueueCapacity(1000);
+        //丢弃策略:CallerRunsPolicy  调用者线程执行策略  新任务不会丢弃，只会阻塞运行
+        executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+        executor.initialize();
+        return executor;
+    }
+
+    /**
+     * The {@link AsyncUncaughtExceptionHandler} instance to be used
+     * when an exception is thrown during an asynchronous method execution
+     * with {@code void} return type.
+     */
+    @Override
+    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
+        return null;
+    }
+}

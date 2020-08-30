@@ -44,7 +44,7 @@ public class Generator {
         // 2.代码位置
         String packageName = "com.ybj.mysql";
         // 3.表名
-        String[] tableNameArray={"tbl_ip_bean"} ;
+        String[] tableNameArray={"tbl_user_role"} ;
         g.generateByTables(startWithi, projectName, packageName, tableNameArray);
     }
 
@@ -157,8 +157,8 @@ public class Generator {
      */
     private DataSourceConfig getDataSourceConfig() {
         return new DataSourceConfig().setDbType(DbType.MYSQL)
-                .setUrl("jdbc:mysql://yuanbaojian.xyz:3306/helloWorld?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone = GMT%2B8")
-                .setUsername("yuanbaojian")
+                .setUrl("jdbc:mysql://yuanbaojian.xyz:3306/MysqlStudy?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone = GMT%2B8")
+                .setUsername("MysqlStudy")
                 .setPassword("312ybj")
                 .setDriverName("com.alibaba.druid.pool.DruidDataSource");
     }

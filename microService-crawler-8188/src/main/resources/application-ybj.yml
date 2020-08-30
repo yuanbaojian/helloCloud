@@ -1,4 +1,18 @@
 spring:
+  mail:
+    host: smtp.qq.com
+    username: 1793870688@qq.com
+    password: naxrczzcyytxgaed
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          connectiontimeout: 5000
+          starttls:
+            enable: true
+          timeout: 5000
+          writetimeout: 5000
   datasource:
     username: yuanbaojian
     password: 312ybj

@@ -35,7 +35,7 @@ public class UserRedPacketServiceImpl extends ServiceImpl<UserRedPacketMapper, U
     UserRedPacketMapper userRedPacketMapper;
 
     /**
-    * <p> 乐观锁 </p>
+    * <p> 乐观锁 使用version字段控制 </p>
      * @param redPacketId
      * @param userId
      * @return int
@@ -96,7 +96,7 @@ public class UserRedPacketServiceImpl extends ServiceImpl<UserRedPacketMapper, U
      * @date 2020/7/13
      * @time 17:00
      */
-    @Async
+    // @Async
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
     @Override
     public int grapRedPacketByPessimisticLock(String redPacketId, String userId) {

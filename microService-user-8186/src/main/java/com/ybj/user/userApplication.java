@@ -4,6 +4,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * @Author deptProvider
@@ -13,6 +14,8 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
  * @return $
  **/
 @MapperScan({"com.ybj.user.dao"})
+@ComponentScan(basePackages = {"com.ybj.*"})
+@ComponentScan(basePackages = {"com.ybj.*"})
 @SpringBootApplication
 @EnableEurekaClient
 public class userApplication {

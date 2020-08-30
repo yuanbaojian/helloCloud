@@ -6,6 +6,7 @@ import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.Executor;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * @description
@@ -21,9 +22,13 @@ public class ThreadConfig implements AsyncConfigurer {
     @Override
     public Executor getAsyncExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(18);
-        executor.setMaxPoolSize(38);
-        executor.setQueueCapacity(200);
+        // 线程的第一站
+        executor.setCorePoolSize(10);
+        // 线程的第二站
+        executor.setQueueCapacity(10);
+        // 线程的第三站。获取系统的核心数，然后进行运算得到maxPoolSize
+        executor.setMaxPoolSize((int) (Runtime.getRuntime().availableProcessors() / (1- 0.8)));
+        executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         executor.initialize();
         return executor;
     }

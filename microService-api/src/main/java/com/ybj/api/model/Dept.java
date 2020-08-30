@@ -17,8 +17,6 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
-
 public class Dept implements Serializable {
 
     private String deptNo;

@@ -1,0 +1,42 @@
+server:
+  port: 8192
+  tomcat:
+    uri-encoding: UTF-8
+    max-connections: 200000
+spring:
+  application:
+    name: springStudy
+
+  profiles:
+    active: ybj
+  redis:
+    host: yuanbaojian.xyz
+    port: 6379
+    password: 312ybj
+    database: 0
+    jedis:
+      pool:
+        # 连接池中的最小空闲连接，默认值也是0
+        min-idle: 8
+        # 连接池中的最大空闲连接，默认值也是0
+        max-idle: 500
+        # 连接池最大连接数
+        max-active: 2000
+        # 最长等待时间 ms
+        max-wait: 100000
+    timeout: 100000
+
+
+
+mybatis-plus:
+  mapper-locations: classpath:com/ybj/spring/mapping/*.xml
+  type-aliases-package: com.ybj.redPacket.model
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka
+
+  instance:
+    instance-id: mysqlStudy
+    prefer-ip-address: true

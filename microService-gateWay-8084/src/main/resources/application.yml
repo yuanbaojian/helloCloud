@@ -37,7 +37,11 @@ spring:
         - id: redPacket_router
           uri: lb://redPacket
           predicates:
-          - Path=/redPacket/**
+          - Path=/redPacket/**, /transaction/**, /userRedPacket/**
+        - id: user_router
+          uri: lb://user-8186
+          predicates:
+          - Path=/user/**
 eureka:
   client:
     service-url:

@@ -19,7 +19,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 @Data
 @ToString
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
-@Document( indexName = "database-ip" , type = "ip")
+@Document( indexName = "database-ip" )
 public class IpBean {
 
     @Id

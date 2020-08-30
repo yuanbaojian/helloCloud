@@ -1,8 +1,15 @@
 package com.ybj.crawler.Learn.ThinkingInJava.Ch3;
 
+import io.swagger.models.auth.In;
 import org.testng.annotations.Test;
 
 public class CastingNumber {
+
+    @Test
+    public void test(){
+        boolean result = 'a' == 97;
+        System.out.println("result = " + result);
+    }
 
 
     @Test
@@ -36,6 +43,17 @@ public class CastingNumber {
             }
             System.out.println("i = " + i);
         }
+    }
+
+    @Test
+    public void test3(){
+        Integer integer = 33;
+        Integer integer1 = 33;
+        Integer integer2 = new Integer(33);
+        System.out.println("integer1.equals(integer2) = " + integer1.equals(integer2));
+        Class<? extends Integer> aClass = integer.getClass();
+        Class<? extends Integer> aClass1 = integer1.getClass();
+        System.out.println("aClass1.equals(aClass) = " + aClass1.equals(aClass));
     }
 
 }

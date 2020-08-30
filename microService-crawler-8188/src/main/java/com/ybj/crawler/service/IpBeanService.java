@@ -2,12 +2,11 @@ package com.ybj.crawler.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ybj.crawler.model.IpBean;
-import org.jsoup.select.Elements;
-import org.springframework.scheduling.annotation.AsyncResult;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 /**
@@ -36,7 +35,7 @@ public interface IpBeanService extends IService<IpBean> {
      * @date 2020/3/6
      * @time 9:22
      */
-    Set<IpBean> getValidIpByAsyncMethod();
+    Set<IpBean> getValidIpByAsyncMethod() throws InterruptedException;
 
     /**
      * 通过自定义线程获得有效ip
@@ -51,5 +50,15 @@ public interface IpBeanService extends IService<IpBean> {
 
     public Future<String> executeAsyncTaskWithResult(String param);
 
+    /**
+    * <p></p>
+     * @param ipBean
+     * @return void
+     * @author yuanbaojian
+     * @date 2020/7/21
+     * @time 13:54
+     */
+    void expandNumber(IpBean ipBean);
 
+    String getIpFromFreeProxy() throws IOException, ExecutionException, InterruptedException;
 }

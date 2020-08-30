@@ -8,6 +8,8 @@ import com.ybj.crawler.annotation.GetExecutionTime;
 import com.ybj.crawler.model.IpBean;
 import com.ybj.crawler.service.IpBeanService;
 import com.ybj.crawler.service.IpBeanThreadService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 /**
  * <p>
@@ -35,6 +38,7 @@ import java.util.concurrent.CompletableFuture;
 @Slf4j
 @RestController
 @RequestMapping("/IpBean")
+@Api(value = "IP接口",tags = {"对IP进行爬取，过滤，回显等操作"})
 public class IpBeanController {
 
     private static String HTTP_API = "https://www.xicidaili.com/wt/";
@@ -55,10 +59,10 @@ public class IpBeanController {
     IpBeanThreadService ipBeanThreadService;
 
     @GetMapping("/save")
-//    @Scheduled(fixedDelay = 10000)
-    public void saveIpBeanToDB() throws IOException {
-        List<IpBean> ipFromWeb = ipBeanService.getIpFromWeb();
-        ipBeanService.saveBatch(ipFromWeb);
+    @ApiOperation(value = "爬取IP",notes = "从公共代理网站中爬取有效IP代理")
+    public String saveIpBeanToDB() throws IOException, ExecutionException, InterruptedException {
+        String result = ipBeanService.getIpFromFreeProxy();
+        return  result;
     }
 
 
@@ -71,16 +75,28 @@ public class IpBeanController {
 
     /**
      * @return 获得有效的ip代理，
-     * 无需分页， 不用查mysql， 只从redis 拿
+     * 从redis中过滤
      * @throws IOException
      */
     @GetExecutionTime
     @GetMapping("/getValidIp")
-    public JsonResult getValidIp() throws IOException, InterruptedException {
-       Set<IpBean> validIp = ipBeanService.getValidIpByAsyncMethod();
-        // Set<IpBean> validIp = ipBeanService.getValidIpByThread();
+    @ApiOperation(value = "获得有效的IP代理",notes = "从Redis中获取")
+    public JsonResult getValidIp() throws InterruptedException {
+        Set<IpBean> validIp = ipBeanService.getValidIpByAsyncMethod();
         return JsonResult.ok().add("validIPSet", validIp);
+    }
 
+
+    // @GetExecutionTime
+    @GetMapping("/expand")
+    public JsonResult expand() throws IOException, InterruptedException {
+        List<IpBean> list = ipBeanService.list();
+        int size = list.size();
+        for (int i = 0; i < size; i++) {
+            ipBeanService.expandNumber(list.get(i));
+            log.info("正在处理第{}条记录，将id设置为null， 完成比例{}", i, i*1.00 / size);
+        }
+        return JsonResult.ok();
     }
 
     @SneakyThrows

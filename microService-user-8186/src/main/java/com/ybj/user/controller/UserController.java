@@ -49,4 +49,23 @@ public class UserController {
         return userList;
     }
 
+    @PostMapping("/addBalance")
+    public JsonResult addBalance(String userId){
+        User user = userService.getById(userId);
+        // System.out.println("1/0 = " + 1/0);
+
+        if(user.getBalance() == null){
+            user.setBalance(10);
+        } else{
+            user.setBalance( user.getBalance() + 10);
+        }
+        boolean updateResult = userService.updateById(user);
+        if(updateResult){
+            return  JsonResult.ok();
+        }
+        return JsonResult.fail("余额增加操作失败 " + updateResult);
+    }
+
+
+
 }

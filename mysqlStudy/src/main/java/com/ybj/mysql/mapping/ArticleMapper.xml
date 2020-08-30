@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ybj.mysql.dao.ArticleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ybj.mysql.model.Article">
+        <id column="id" property="id" />
+        <result column="author_id" property="authorId" />
+        <result column="category_id" property="categoryId" />
+        <result column="views" property="views" />
+        <result column="comments" property="comments" />
+        <result column="titile" property="titile" />
+        <result column="content" property="content" />
+        <result column="version" property="version" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, author_id, category_id, views, comments, titile, content
+    </sql>
+    <select id="selectByLineLock" resultMap="BaseResultMap">
+        select * from article where id + 1 = #{id}
+    </select>
+    <select id="getMaxIdArticle" resultMap="BaseResultMap">
+        select * from article  ORDER BY id DESC limit 1
+    </select>
+
+</mapper>

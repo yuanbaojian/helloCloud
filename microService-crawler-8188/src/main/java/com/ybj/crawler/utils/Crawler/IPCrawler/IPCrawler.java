@@ -2,6 +2,7 @@ package com.ybj.crawler.utils.Crawler.IPCrawler;
 
 import com.ybj.crawler.model.IpBean;
 import com.ybj.crawler.model.IpBeanList;
+import com.ybj.crawler.utils.Crawler.IPUtils;
 import org.apache.commons.io.IOUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

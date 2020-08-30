@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ybj.mysql.dao.RoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ybj.mysql.model.Role">
+        <id column="ID" property="id" />
+        <result column="ROLE_NAME" property="roleName" />
+        <result column="ROLE_NO" property="roleNo" />
+        <result column="REMARK" property="remark" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="CREATED_BY" property="createdBy" />
+        <result column="UPDATED_BY" property="updatedBy" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ID, ROLE_NAME, ROLE_NO, REMARK, CREATE_TIME, UPDATE_TIME, CREATED_BY, UPDATED_BY
+    </sql>
+
+</mapper>

@@ -2,6 +2,7 @@ package com.ybj.crawler.utils.Crawler.FIleDownload;
 
 
 import com.ybj.crawler.utils.NetWorkUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.jsoup.Jsoup;
@@ -13,6 +14,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @Author Jsoup
@@ -20,6 +23,7 @@ import java.util.HashMap;
  * @Param $
  * @return $
  **/
+@Slf4j
 public class t66y {
 
     public static String URLPrefix="http://t66y.com/";
@@ -28,13 +32,13 @@ public class t66y {
 
     public static void main(String[] args) throws Exception {
         String urlPrefix="http://t66y.com/thread0806.php?fid=7&search=&page=";
-        int pageNumber=4;
-        for (int i = 3; i < pageNumber; i++) {
+        int pageNumber=30;
+        for (int i = 23; i < pageNumber; i++) {
             String url=urlPrefix+i;
             getPageURL(url);
             System.out.println("第 "+i+" 页下载完成" );
+            Thread.sleep(10000);
         }
-        new HashMap();
     }
 
 
@@ -65,11 +69,19 @@ public class t66y {
         Document doc= Jsoup.parse(urlSource);
         //第二步，根据我们需要得到的标签，选择提取相应标签的内容
         Elements elements = doc.select("div[class=tpc_content do_not_catch]").select("img");
+        ExecutorService executorService = Executors.newFixedThreadPool(30);
+
         for (int i = 0; i <elements.size(); i++) {
-            String urlString = elements.get(i).attr("data-src");
-            if(urlString.startsWith("https")){
-                downloadPhoto(urlString);
-            }
+            String urlString = elements.get(i).attr("ess-data");
+            executorService.submit(new Runnable() {
+                @Override
+                public void run() {
+                    if(urlString.startsWith("https")){
+                        downloadPhoto(urlString);
+                    }
+                }
+            });
+
         }
 
     }
@@ -81,7 +93,8 @@ public class t66y {
      * @throws IOException
      */
     private static void downloadPhoto(String urlString) {
-        String descPrefix="G:\\clawer\\t66y\\phtotoV2\\";
+        log.info("图片URL是 {}",urlString);
+        String descPrefix="G:\\clawer\\t66y\\";
         String fileName= FilenameUtils.getName(urlString);
         File picutreFile = new File(descPrefix + fileName);
         try {

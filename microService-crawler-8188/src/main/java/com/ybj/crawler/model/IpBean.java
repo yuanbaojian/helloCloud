@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -19,7 +20,6 @@ import java.util.Objects;
  * @since 2020-02-10
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("TBL_IP_BEAN")
 public class IpBean implements Serializable {
@@ -39,21 +39,6 @@ public class IpBean implements Serializable {
 
     private String protocolType;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        IpBean ipBean = (IpBean) o;
-        return Objects.equals(ID, ipBean.ID) &&
-                Objects.equals(ipAddress, ipBean.ipAddress) &&
-                Objects.equals(ipPort, ipBean.ipPort) &&
-                Objects.equals(serverAddress, ipBean.serverAddress) &&
-                Objects.equals(anonyType, ipBean.anonyType) &&
-                Objects.equals(protocolType, ipBean.protocolType);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(ID, ipAddress, ipPort, serverAddress, anonyType, protocolType);
-    }
+
 }
