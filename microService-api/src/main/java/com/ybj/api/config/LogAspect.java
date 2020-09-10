@@ -9,6 +9,8 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -68,8 +70,8 @@ public class LogAspect {
 
     //获得函数名， 参数名， 参数值，执行时间
     @Around(value = "getParam()")
-    public void getParams(ProceedingJoinPoint joinPoint) throws Throwable {
-        Date start = new Date();
+    public Object getParams(ProceedingJoinPoint joinPoint) throws Throwable {
+        LocalDateTime start = LocalDateTime.now();
         String className = joinPoint.getSignature().getDeclaringType().getName();
         String methodName = joinPoint.getSignature().getName();
         String entranceName = className + "." + methodName;
@@ -85,13 +87,11 @@ public class LogAspect {
         for(int i = 0; i < parameterNames.length; i++) {
             stringBuilder.append(parameterTypes[i] + " : " + parameterNames[i] + " : " + args[i] +"\n");
         }
-        String parameters = stringBuilder.toString();
-        log.info("入口为 {} \n 参数信息: \n{}", entranceName , stringBuilder.toString());
+        log.info("\n入口函数为 {} \n参数信息: \n{}", entranceName , stringBuilder.toString());
+        LocalDateTime end = LocalDateTime.now();
         Object proceed = joinPoint.proceed();
-        Date end = new Date();
-        long millSecond = end.getTime() - start.getTime();
-        long second = millSecond/1000;
-        log.info("执行时间为 {} s", second);
+        log.info("执行时间为 {} ms", Duration.between(start, end).toMillis());
+        return proceed;
     }
 
 }

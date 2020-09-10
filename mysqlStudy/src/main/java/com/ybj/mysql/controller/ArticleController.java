@@ -1,9 +1,15 @@
 package com.ybj.mysql.controller;
 
 
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.ExcelWriter;
+import com.alibaba.excel.write.metadata.WriteSheet;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.ybj.api.annotation.GetParamLog;
 import com.ybj.api.model.JsonResult;
 import com.ybj.mysql.dao.ArticleMapper;
 import com.ybj.mysql.model.Article;
@@ -22,7 +28,10 @@ import springfox.documentation.spring.web.json.Json;
 import javax.annotation.Resource;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.Semaphore;
@@ -152,6 +161,97 @@ public class ArticleController {
         }
         log.info("执行完毕");
     }
+
+    @GetParamLog
+    @GetMapping("/export")
+    @ApiOperation(value = "export",notes = "导出excel")
+    public JsonResult export() throws Exception {
+        LocalDateTime start = LocalDateTime.now();
+        String fileName = "C:\\Users\\yuanbaojian\\Desktop\\EasyExcel.xlsx";
+        ExcelWriter excelWriter = EasyExcel.write(fileName, Article.class).build();
+        WriteSheet writeSheet = EasyExcel.writerSheet("测试sheet").build();
+        int number = 25;
+        CountDownLatch countDownLatch = new CountDownLatch(number);
+        for(int i = 1; i <= number; i++) {
+            articleService.writeToExcel(i,fileName, excelWriter,writeSheet,countDownLatch);
+        }
+        countDownLatch.await();
+        excelWriter.finish();
+        LocalDateTime end = LocalDateTime.now();
+        Duration duration = Duration.between(start, end);
+        return JsonResult.ok("执行时长" + duration.toMillis());
+        // 这里 需要指定写用哪个class去写，然后写到第一个sheet，名字为模板 然后文件流会自动关闭
+        // 如果这里想使用03 则 传入excelType参数即可
+    }
+
+    @GetParamLog
+    @GetMapping("/ReadAndExportWithSingleThread")
+    @ApiOperation(value = "ReadAndExportWithSingleThread",notes = "先读取所有数据，再存放到excel中,单线程操作")
+    public JsonResult ReadAndExport() throws Exception {
+        LocalDateTime start = LocalDateTime.now();
+        String fileName = "C:\\Users\\yuanbaojian\\Desktop\\EasyExcel.xlsx";
+        ExcelWriter excelWriter = EasyExcel.write(fileName, Article.class).build();
+        WriteSheet writeSheet = EasyExcel.writerSheet("测试sheet").build();
+        int number = 50;
+        List allList = new ArrayList();
+        for(int i = 1; i <= number; i++) {
+            log.info("查询{}页",i);
+            IPage<Article> iPage = new Page<>();
+            iPage.setCurrent(i);
+            iPage.setSize(10000);
+            IPage<Article> result = articleMapper.selectPage(iPage, null);
+            List<Article> articleList = result.getRecords();
+            allList.addAll(articleList);
+        }
+        excelWriter.write(allList, writeSheet);
+        excelWriter.finish();
+        LocalDateTime end = LocalDateTime.now();
+        Duration duration = Duration.between(start, end);
+        return JsonResult.ok("执行时长" + duration.toMillis());
+        // 这里 需要指定写用哪个class去写，然后写到第一个sheet，名字为模板 然后文件流会自动关闭
+        // 如果这里想使用03 则 传入excelType参数即可
+    }
+    @GetParamLog
+    @GetMapping("/ReadAndExportWithMultiThread")
+    @ApiOperation(value = "ReadAndExportWithMultiThread",notes = "多线程先读取所有数据，再存放到excel中")
+    public JsonResult ReadAndExportWithMultiThread() throws Exception {
+        LocalDateTime start = LocalDateTime.now();
+        String fileName = "C:\\Users\\yuanbaojian\\Desktop\\EasyExcel.xlsx";
+        ExcelWriter excelWriter = EasyExcel.write(fileName, Article.class).build();
+        WriteSheet writeSheet = EasyExcel.writerSheet("测试sheet").build();
+        int number = 140;
+        List allList = new ArrayList();
+        List<CompletableFuture<List<Article>>> futureList = new LinkedList<>();
+        for(int i = 1; i <= number; i++) {
+            CompletableFuture<List<Article>> listCompletableFuture = articleService.getFromDB(i);
+            futureList.add(listCompletableFuture);
+        }
+        for (CompletableFuture<List<Article>> listCompletableFuture : futureList) {
+            List<Article> articles = listCompletableFuture.get();
+            allList.addAll(articles);
+        }
+        CompletableFuture.allOf(futureList.toArray(new CompletableFuture[futureList.size()])).join();
+        log.info("总长度为{}",allList.size());
+        excelWriter.write(allList, writeSheet);
+        excelWriter.finish();
+        LocalDateTime end = LocalDateTime.now();
+        Duration duration = Duration.between(start, end);
+        return JsonResult.ok("执行时长" + duration.toMillis());
+    }
+
+    @GetParamLog
+    @GetMapping("/getSerachTime")
+    @ApiOperation(value = "getSerachTime",notes = "测试获得特定条数时间")
+    public JsonResult getSerachTime(Integer count) throws Exception {
+        LocalDateTime start = LocalDateTime.now();
+        List<Article> articleList = articleMapper.getCount(count);
+        log.info("总长度为{}",articleList.size());
+        LocalDateTime end = LocalDateTime.now();
+        Duration duration = Duration.between(start, end);
+        return JsonResult.ok("执行时长" + duration.toMillis());
+    }
+
+
 
 
 }

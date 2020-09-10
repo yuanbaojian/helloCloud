@@ -23,8 +23,8 @@ public class ThreadConfig implements AsyncConfigurer {
     public Executor getAsyncExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(8);
-        executor.setMaxPoolSize(16);
-        executor.setQueueCapacity(1000);
+        executor.setMaxPoolSize(80);
+        executor.setQueueCapacity(9);
         //丢弃策略:CallerRunsPolicy  调用者线程执行策略  新任务不会丢弃，只会阻塞运行
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         executor.initialize();

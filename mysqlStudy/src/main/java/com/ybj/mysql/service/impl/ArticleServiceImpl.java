@@ -1,5 +1,9 @@
 package com.ybj.mysql.service.impl;
 
+import com.alibaba.excel.ExcelWriter;
+import com.alibaba.excel.write.metadata.WriteSheet;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ybj.mysql.model.Article;
 import com.ybj.mysql.dao.ArticleMapper;
 import com.ybj.mysql.service.ArticleServiceI;
@@ -9,10 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.Semaphore;
+import java.util.List;
+import java.util.concurrent.*;
 
 /**
  * <p>
@@ -78,5 +80,31 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             log.info("正在插入第{} 未获得信号量",i);
         }
 
+    }
+
+    @Async
+    @Override
+    public void writeToExcel(int count, String fileName, ExcelWriter excelWriter, WriteSheet writeSheet, CountDownLatch countDownLatch) {
+        IPage<Article> iPage = new Page<>();
+        iPage.setCurrent(count);
+        iPage.setSize(1000);
+        IPage<Article> result = articleMapper.selectPage(iPage, null);
+        List<Article> articleList = result.getRecords();
+        //最后一次写入有效
+        excelWriter.write(articleList, writeSheet);
+        log.info("已完成第{}页的填写",count);
+        countDownLatch.countDown();
+    }
+
+    @Async
+    @Override
+    public CompletableFuture<List<Article>> getFromDB(int i) {
+        IPage<Article> iPage = new Page<>();
+        iPage.setCurrent(i);
+        iPage.setSize(50000);
+        IPage<Article> result = articleMapper.selectPage(iPage, null);
+        List<Article> articleList = result.getRecords();
+        log.info("查询{}页",i);
+        return CompletableFuture.completedFuture(articleList);
     }
 }

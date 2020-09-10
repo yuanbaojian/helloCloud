@@ -24,5 +24,8 @@
     <select id="getMaxIdArticle" resultMap="BaseResultMap">
         select * from article  ORDER BY id DESC limit 1
     </select>
+    <select id="getCount" resultMap="BaseResultMap">
+        select * from  article limit 0,#{count}
+    </select>
 
 </mapper>

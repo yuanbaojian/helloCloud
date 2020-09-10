@@ -8,7 +8,7 @@ spring:
     name: mysqlStudy
 
   profiles:
-    active: ybj
+    active: prod
   redis:
     host: yuanbaojian.xyz
     port: 6379
