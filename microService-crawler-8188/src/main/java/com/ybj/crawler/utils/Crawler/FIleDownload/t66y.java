@@ -32,8 +32,8 @@ public class t66y {
 
     public static void main(String[] args) throws Exception {
         String urlPrefix="http://t66y.com/thread0806.php?fid=7&search=&page=";
-        int pageNumber=30;
-        for (int i = 23; i < pageNumber; i++) {
+        int pageNumber=2;
+        for (int i = 1; i <=pageNumber; i++) {
             String url=urlPrefix+i;
             getPageURL(url);
             System.out.println("第 "+i+" 页下载完成" );
@@ -94,7 +94,7 @@ public class t66y {
      */
     private static void downloadPhoto(String urlString) {
         log.info("图片URL是 {}",urlString);
-        String descPrefix="G:\\clawer\\t66y\\";
+        String descPrefix="/data/photos";
         String fileName= FilenameUtils.getName(urlString);
         File picutreFile = new File(descPrefix + fileName);
         try {

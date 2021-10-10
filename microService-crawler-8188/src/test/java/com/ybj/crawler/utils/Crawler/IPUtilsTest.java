@@ -1,17 +1,13 @@
 package com.ybj.crawler.utils.Crawler;
 
 import com.ybj.crawler.model.IpBean;
-import io.swagger.models.auth.In;
 import org.junit.jupiter.api.Test;
-import org.testng.reporters.jq.INavigatorPanel;
 
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class IPUtilsTest {
 
@@ -43,4 +39,17 @@ class IPUtilsTest {
     public void testFor(){
         System.out.println(Runtime.getRuntime().availableProcessors());
     }
+
+    @Test
+    public void test2(){
+        List<Long> list = null;
+        list.forEach( a ->
+                System.out.println("a = " + a));
+    }
+    @Test
+    public void test23(){
+        // List<Object> objects = Lists.new
+        // objects.add(333);
+    }
+
 }

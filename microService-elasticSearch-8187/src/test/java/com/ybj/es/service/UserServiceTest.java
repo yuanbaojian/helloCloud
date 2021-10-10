@@ -4,7 +4,6 @@ import com.ybj.es.model.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 
 @SpringBootTest
 class UserServiceTest {
@@ -24,6 +23,17 @@ class UserServiceTest {
     public void test(){
         Iterable<User> all = userService.findAll();
         System.out.println("all = " + all);
+    }
+
+    public <T> T getResult(T t){
+        System.out.println("t = " + t);
+        return t;
+    }
+
+    @Test
+    public void test1(){
+        UserServiceTest userServiceTest = new UserServiceTest();
+        userServiceTest.getResult("hello");
     }
 
 //    分页

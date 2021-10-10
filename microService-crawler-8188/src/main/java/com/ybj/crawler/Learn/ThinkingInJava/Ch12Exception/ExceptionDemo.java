@@ -1,4 +1,4 @@
-package com.ybj.crawler.Learn.ThinkingInJava.Ch12;
+package com.ybj.crawler.Learn.ThinkingInJava.Ch12Exception;
 
 /**
  * @Author Exception

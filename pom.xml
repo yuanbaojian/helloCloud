@@ -20,6 +20,7 @@
         <module>springStudy</module>
         <module>activiti</module>
         <module>nacos</module>
+        <module>rocketMq</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

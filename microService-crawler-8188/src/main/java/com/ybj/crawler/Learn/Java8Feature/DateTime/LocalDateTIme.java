@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.IsoFields;
+import java.time.temporal.TemporalField;
 
 /**
  * @Author LocalDateTIme
@@ -70,4 +72,10 @@ public class LocalDateTIme {
         System.out.println("locadateTimeString = " + locadateTimeString);
     }
 
+
+    @Test
+    public void paramTest(){
+        LocalDateTime localDateTime = LocalDateTime.now();
+        localDateTime.get(IsoFields.QUARTER_OF_YEAR);
+    }
 }

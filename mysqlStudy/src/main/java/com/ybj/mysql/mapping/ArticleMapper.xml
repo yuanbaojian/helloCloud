@@ -18,6 +18,37 @@
     <sql id="Base_Column_List">
         id, author_id, category_id, views, comments, titile, content
     </sql>
+
+    <insert id="insertOne" keyProperty="id" useGeneratedKeys="true">
+        insert into article(author_id,category_id,views,comments,titile,content,version)
+        values (
+                #{article.authorId},
+                #{article.categoryId},
+                #{article.views},
+                #{article.comments},
+                #{article.titile},
+                #{article.content},
+                #{article.version}
+               )
+    </insert>
+    <insert id="saveBatch">
+        insert into article(author_id,category_id,views,comments,titile,content,version)
+        values
+        <foreach collection="list" item="article" separator="," >
+            (
+            #{article.authorId},
+            #{article.categoryId},
+            #{article.views},
+            #{article.comments},
+            #{article.titile},
+            #{article.content},
+            #{article.version}
+            )
+        </foreach>
+
+    </insert>
+
+
     <select id="selectByLineLock" resultMap="BaseResultMap">
         select * from article where id + 1 = #{id}
     </select>

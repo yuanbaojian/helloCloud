@@ -12,7 +12,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * 接口文档配置类
- * @author kdl
  */
 @Configuration
 @EnableSwagger2

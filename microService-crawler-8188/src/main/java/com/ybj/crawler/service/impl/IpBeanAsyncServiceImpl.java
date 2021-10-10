@@ -1,8 +1,11 @@
 package com.ybj.crawler.service.impl;
 
 import com.ybj.crawler.model.IpBean;
+import com.ybj.crawler.service.FolderService;
 import com.ybj.crawler.service.IpBeanAsyncService;
 import com.ybj.crawler.utils.Crawler.IPUtils;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -24,9 +27,14 @@ import java.util.concurrent.Future;
  **/
 @Slf4j
 @Service
+// @RequiredArgsConstructor
 public class IpBeanAsyncServiceImpl implements IpBeanAsyncService {
 
     private static final IPUtils ipUtils = IPUtils.getInstance();
+
+
+    @Autowired
+    FolderService folderService;
 
     @Autowired
     RedisTemplate redisTemplate;

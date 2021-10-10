@@ -32,11 +32,11 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Autowired
     ArticleMapper articleMapper;
 
-    @Async
     @Override
     public void expand(Article article, int i) {
         // articleMapper.insert(article);
-        log.info("正在插入第{}条记录",i);
+        articleMapper.insertOne(article);
+        log.info("正在插入第{}条记录, 内容为 {}",i,article.toString());
     }
 
     @Async

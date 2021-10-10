@@ -5,7 +5,6 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.write.metadata.WriteSheet;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -19,21 +18,21 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
-import springfox.documentation.spring.web.json.Json;
 
-import javax.annotation.Resource;
+import java.io.FileNotFoundException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.Semaphore;
 
 /**
@@ -47,7 +46,7 @@ import java.util.concurrent.Semaphore;
 @Slf4j
 @RestController
 @RequestMapping("/article")
-@Api(value = "文章接口",tags = {"文章表进行mysql性能测试"})
+@Api(tags = "使用文章表，进行mysql性能测试")
 public class ArticleController {
 
 
@@ -58,12 +57,35 @@ public class ArticleController {
     @Autowired
     ArticleMapper articleMapper;
 
-    @GetMapping("/getAll")
-    @ApiOperation(value = "获得所有文章",notes = "全部获取")
-    public List<Article> getAll(){
-        List<Article> articleList = articleService.list();
-        return articleList;
+
+    /**
+     * 为什么我制定了rollbackFor的类型， 还是回滚了？？？
+     * 因为 rollbackfor会自动 加入ArithmeticException.class
+     */
+    @Transactional(rollbackFor = {ArithmeticException.class})
+    @GetMapping("/addArticles")
+    @ApiOperation(value = "对文章进行扩容",notes = "增大数据库的文章数量")
+    public JsonResult addArticles() throws FileNotFoundException, InterruptedException {
+        Article article = new Article();
+        article.setAuthorId(1).setCategoryId(1).setComments(1)
+                .setContent(String.valueOf(1)).setTitile(String.valueOf(1)).setViews(1);
+        articleMapper.insertOne(article);
+        Thread.sleep(1000000);
+        return JsonResult.ok();
+        // File file = new File("/ybj/1.txt");
+        // InputStream inputStream = new FileInputStream(file);
     }
+
+
+    @PostMapping("/getByPage")
+    @ApiOperation(value = "分页查找",notes = "分页查找，note")
+    public Page<Article> getByPage(){
+        Page<Article> page = new Page<>(1,10);
+        return articleService.page(page);
+    }
+
+
+
     @GetMapping("/getById")
     @ApiOperation(value = "根据id获得记录",notes = "单条记录")
     public Article getById(String id){
@@ -84,14 +106,85 @@ public class ArticleController {
     @ApiOperation(value = "对文章进行扩容",notes = "增大数据库的文章数量")
     public void expand(){
         Article maxArticle = articleService.getMaxIdArticle();
-        for(int i = maxArticle.getId() +1 ; i < 20000000; i++) {
+        for(int i = maxArticle.getId() +1 ; i < maxArticle.getId() + 30; i++) {
             Article article = new Article();
-            article.setId(i).setAuthorId(i).setCategoryId(i).setComments(i)
+            article.setAuthorId(i).setCategoryId(i).setComments(i)
                     .setContent(String.valueOf(i)).setTitile(String.valueOf(i)).setViews(i);
             articleService.expand(article, i);
         }
         log.info("执行完毕");
     }
+
+    /**
+     * @param size
+     * 10000条数据  12496  12584  14508 ms
+     */
+    @GetMapping("/expandByForWithOutId")
+    @ApiOperation(value = "无id for循环 插入   对文章进行扩容")
+    public void expandWithOutId(Long size){
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start("无id 插入批量数据");
+        for(int i = 0 ; i <  size; i++) {
+            Article article = new Article();
+            article.setAuthorId(i).setCategoryId(i).setComments(i)
+                    .setContent(String.valueOf(i)).setTitile(String.valueOf(i)).setViews(i);
+            articleMapper.insertOne(article);
+            log.info("正在保存第 {} 条",i);
+        }
+        stopWatch.stop();
+        log.info("执行完毕, 花费时间 {}", stopWatch.getTotalTimeMillis());
+    }
+
+
+    /**
+     * @param size
+     * 10000条数据  1335  987`  1121 ms
+     */
+    @GetMapping("/expandByEachWithOutId")
+    @ApiOperation(value = "无id foreach插入   对文章进行扩容")
+    public void expandByEachWithOutId(Long size){
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start("无id 插入批量数据");
+        List<Article> list = new ArrayList<>();
+        for(int i = 0 ; i <  size; i++) {
+            Article article = new Article();
+            article.setAuthorId(i).setCategoryId(i).setComments(i)
+                    .setContent(String.valueOf(i)).setTitile(String.valueOf(i)).setViews(i);
+            list.add(article);
+            // articleMapper.insertOne(article);
+        }
+        articleMapper.saveBatch(list);
+        stopWatch.stop();
+        log.info("执行完毕, 花费时间 {}", stopWatch.getTotalTimeMillis());
+    }
+
+
+    /**
+     * @param size
+     * 10000条数据  1341  990  1121 ms
+     */
+    @GetMapping("/expandByEachWithId")
+    @ApiOperation(value = "有id foreach插入   对文章进行扩容")
+    public void expandByEachWithId(Long size){
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start("无id 插入批量数据");
+        List<Article> list = new ArrayList<>();
+        Random random = new Random();
+
+        for(int i = 0 ; i <  size; i++) {
+            Article article = new Article();
+            article.setId(1000000 + random.nextInt(10000000));
+            article.setAuthorId(i).setCategoryId(i).setComments(i)
+                    .setContent(String.valueOf(i)).setTitile(String.valueOf(i)).setViews(i);
+            list.add(article);
+            // articleMapper.insertOne(article);
+        }
+        articleMapper.saveBatch(list);
+        stopWatch.stop();
+        log.info("执行完毕, 花费时间 {}", stopWatch.getTotalTimeMillis());
+    }
+
+
     @GetMapping("/indexNotWork")
     @ApiOperation(value = "主键索引失效",notes = "组件索引失效，查询速度变慢")
     public JsonResult lineLock(){

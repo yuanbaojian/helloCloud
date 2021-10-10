@@ -2,6 +2,7 @@ package com.ybj.mysql.dao;
 
 import com.ybj.mysql.model.Article;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -20,4 +21,8 @@ public interface ArticleMapper extends BaseMapper<Article> {
     Article getMaxIdArticle();
 
     List<Article> getCount(Integer count);
+
+    void insertOne(@Param("article") Article article);
+
+    void saveBatch(@Param("list") List<Article> list);
 }

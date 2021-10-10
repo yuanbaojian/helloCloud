@@ -81,6 +81,7 @@ public class IPUtils {
     public static boolean isValid(IpBean ipBean) {
         Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(ipBean.getIpAddress(), ipBean.getIpPort()));
         try {
+
             URLConnection httpCon = new URL("https://www.baidu.com/").openConnection(proxy);
             httpCon.setConnectTimeout(5000);
             httpCon.setReadTimeout(5000);

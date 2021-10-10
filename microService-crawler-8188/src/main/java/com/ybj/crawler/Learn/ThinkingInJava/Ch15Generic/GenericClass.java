@@ -1,4 +1,4 @@
-package com.ybj.crawler.Learn.ThinkingInJava.Ch15;
+package com.ybj.crawler.Learn.ThinkingInJava.Ch15Generic;
 
 import org.testng.annotations.Test;
 
@@ -9,6 +9,11 @@ import org.testng.annotations.Test;
  * @date 2019/11/21
  */
 public class GenericClass<T> {
+
+    public T getT(){
+        return t;
+    }
+
 
     private T t;
 
@@ -25,6 +30,21 @@ public class GenericClass<T> {
         GenericClass<Integer> Class2=new GenericClass<Integer>();
         Class2.t=11;
         System.out.println("Class2.t.getClass().getName() = " + Class2.t.getClass().getName());
+    }
+
+
+    class child<T> extends GenericClass{
+
+        @Override
+        public Object getT(){
+            return  t;
+        }
+
+
+    }
+
+    class StringData extends GenericClass<String>{
+
     }
 
 }

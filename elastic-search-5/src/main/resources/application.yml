@@ -1,0 +1,27 @@
+server:
+  port: 8187
+
+#spring:
+#  elasticsearch:
+#    jest:
+#      password: CwWkTuF1AY14HA3OTo66
+#      username: elastic
+#      uris: http://es-cn-mp91mb9ff000j5bde.elasticsearch.aliyuncs.com:9200
+
+spring:
+  data:
+  elasticsearch:
+    cluster-name: es-cn
+    cluster-nodes: es-cn.elasticsearch.aliyuncs.com:9300
+    username-password: elastic:O9VV8MaBmflV9g
+    properties:
+      transport.tcp.connect_timeout: 40s
+      client.transport.ping_timeout: 10s
+      client.transport.nodes_sampler_interval: 5s
+
+
+
+  instance:
+    instance-id: es-8187
+    prefer-ip-address: true
+

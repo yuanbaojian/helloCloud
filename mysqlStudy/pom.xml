@@ -20,6 +20,13 @@
         </dependency>
 
         <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+            <version>3.3.0</version>
+        </dependency>
+
+
+        <dependency>
             <groupId>com.ybj</groupId>
             <artifactId>microService-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
@@ -31,6 +38,10 @@
                 <exclusion>
                     <artifactId>mysql-connector-java</artifactId>
                     <groupId>mysql</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>swagger-bootstrap-ui</artifactId>
+                    <groupId>com.github.xiaoymin</groupId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -65,21 +76,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
-
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.cloud</groupId>-->
-<!--            <artifactId>spring-cloud-starter-eureka</artifactId>-->
-<!--            <exclusions>-->
-<!--                <exclusion>-->
-<!--                    <artifactId>commons-lang</artifactId>-->
-<!--                    <groupId>commons-lang</groupId>-->
-<!--                </exclusion>-->
-<!--                <exclusion>-->
-<!--                    <artifactId>commons-collections</artifactId>-->
-<!--                    <groupId>commons-collections</groupId>-->
-<!--                </exclusion>-->
-<!--            </exclusions>-->
-<!--        </dependency>-->
 
         <dependency>
             <groupId>org.redisson</groupId>

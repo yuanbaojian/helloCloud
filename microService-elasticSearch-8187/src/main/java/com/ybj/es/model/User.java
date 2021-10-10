@@ -17,7 +17,7 @@ import org.springframework.data.elasticsearch.annotations.Field;
 @Data
 @ToString
 @Accessors(chain = true)
-@Document(indexName = "database2", type = "TBL_USER")
+@Document(indexName = "database2")
 public class User {
 
     @Id

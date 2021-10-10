@@ -1,4 +1,4 @@
-package com.ybj.crawler.Learn.ThinkingInJava.Ch15;
+package com.ybj.crawler.Learn.ThinkingInJava.Ch15Generic;
 
 import java.util.ArrayList;
 import java.util.List;

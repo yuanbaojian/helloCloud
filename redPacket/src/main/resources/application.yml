@@ -7,19 +7,19 @@ spring:
   application:
     name: redPacket
 
-  rabbitmq:
-    host: 127.0.0.1
-    port: 5672
-    username: mqadmin
-    password: admin
-    publisher-returns: true
-    publisher-confirm-type: simple
+#  rabbitmq:
+#    host: 127.0.0.1
+#    port: 5672
+#    username: mqadmin
+#    password: admin
+#    publisher-returns: true
+#    publisher-confirm-type: simple
   profiles:
     active: ybj
   redis:
-    host: yuanbaojian.xyz
-    port: 6379
-    password: 312ybj
+    host: 10.172.161.123
+    port: 6389
+    password: SSVFDKBJNDFNJ@rfgvf3244
     database: 0
     jedis:
       pool:
@@ -35,22 +35,22 @@ spring:
 
 
 #配置 elasticSearch的 url（已过失，过会再改）
-  elasticsearch:
-    jest:
-      uris: http://127.0.0.1:9200
+#  elasticsearch:
+#    jest:
+#      uris: http://127.0.0.1:9200
 
 mybatis-plus:
   mapper-locations: classpath:com/ybj/redPacket/mapping/*.xml
   type-aliases-package: com.ybj.redPacket.model
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:7001/eureka
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:7001/eureka
 
-  instance:
-    instance-id: redPacket
-    prefer-ip-address: true
+#  instance:
+#    instance-id: redPacket
+#    prefer-ip-address: true
 
 feign:
   client:

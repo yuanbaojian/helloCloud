@@ -1,7 +1,6 @@
 package com.ybj.es.service;
 
 import com.ybj.es.model.Book;
-import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
@@ -24,5 +23,6 @@ public interface BookService extends CrudRepository<Book,Integer> {
     List<Book> findBooksByBookNameAndAuthor(String bookName, String author);
 
     List<Book> findAllByBookNameLikeAndAndAuthorIsLike(String bookName, String author);
+
 
 }
