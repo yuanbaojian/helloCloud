@@ -2,6 +2,9 @@ package com.ybj.crawler.Learn.ThinkingInJava.Ch15Generic;
 
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /***   范型类， 在类名后加<T> 表示是泛型类
  * @param null
  * @return
@@ -14,8 +17,21 @@ public class GenericClass<T> {
         return t;
     }
 
+    // public void ListMethod(List<String> list){
+    //
+    // }
+    //
+    // public void ListMethod(List<Integer> list){
+    //
+    // }
 
     private T t;
+
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<>();
+        List<Integer> list2 = new ArrayList<>();
+        System.out.println("list2 = " + list2);
+    }
 
     public <T> void sout(){
         System.out.println("t = " + t);

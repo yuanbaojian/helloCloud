@@ -30,7 +30,10 @@ import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
@@ -51,17 +54,21 @@ class BookServiceTest {
     @Autowired
     ConnectionPool connectionPool;
 
+    @Autowired
+    private JavaMailSender mailSender;
+
+
+    @Autowired
+    private MailProperties mailProperties;
+
     @Test
     public void test1(){
-        RestHighLevelClient elasticClient = connectionPool.getElasticClient();
-        GetIndexRequest getIndexRequest = new GetIndexRequest("dev_common_material");
-        try {
-            boolean exists = elasticClient.indices().exists(getIndexRequest, RequestOptions.DEFAULT);
-            log.info("exists {}",exists);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        log.info("");
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(mailProperties.getUsername());
+        message.setTo("1793870688@qq.com");
+        message.setSubject("from qq");
+        message.setText("hello");
+        mailSender.send(message);
     }
 
     /**

@@ -5,7 +5,10 @@ import com.ybj.mysql.model.Article;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.mail.MailProperties;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.Duration;
@@ -17,6 +20,14 @@ class ArticleServiceITest {
 
     @Autowired
     ArticleMapper articleMapper;
+
+
+    @Autowired
+    private JavaMailSender mailSender;
+
+
+    @Autowired
+    private MailProperties mailProperties;
 
     @Test
     void expand() {
@@ -43,10 +54,12 @@ class ArticleServiceITest {
 
     @Test
     void add(){
-        Article article = new Article();
-        article.setAuthorId(1).setCategoryId(1).setComments(1)
-                .setContent(String.valueOf(1)).setTitile(String.valueOf(1)).setViews(1);
-        articleMapper.insertOne(article);
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(mailProperties.getUsername());
+        message.setTo("1793870688@qq.com");
+        message.setSubject("from qq");
+        message.setText("hello");
+        mailSender.send(message);
     }
 
     @Test

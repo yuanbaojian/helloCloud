@@ -6,6 +6,24 @@ server:
 spring:
   application:
     name: mysqlStudy
+  mail:
+    username:  no-reply@ubras.com.cn
+    password: B1yue@
+    host: smtp.exmail.qq.com
+    port: 465
+    properties:
+      mail:
+        transport:
+          protocol: smtp
+        smtp:
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+          port: 465
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
 
   profiles:
     active: prod

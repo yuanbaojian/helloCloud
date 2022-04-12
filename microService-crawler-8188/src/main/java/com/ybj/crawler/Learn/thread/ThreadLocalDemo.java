@@ -11,7 +11,8 @@ import java.util.concurrent.Executors;
  * @return $
  **/
 public class ThreadLocalDemo {
-    String test = "hello";
+
+    String localVariable = "hello";
 
     public static void main(String[] args) {
         ThreadLocalDemo threadLocalDemo = new ThreadLocalDemo();
@@ -19,9 +20,9 @@ public class ThreadLocalDemo {
         for(int i = 0; i < 10; i++) {
             int finalI = i;
             executorService.submit(()->{
-                String test1 = threadLocalDemo.test;
-                test1 += finalI;
-                System.out.println(Thread.currentThread().getName() + "   " + test1);
+                String variable = threadLocalDemo.localVariable;
+                variable += finalI;
+                System.out.println(Thread.currentThread().getName() + "   " + variable);
             });
         }
     }
