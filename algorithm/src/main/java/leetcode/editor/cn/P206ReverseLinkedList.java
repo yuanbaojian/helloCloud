@@ -46,8 +46,8 @@ package leetcode.editor.cn;
 public class P206ReverseLinkedList{
     public static void main(String[] args) {
         Solution solution = new P206ReverseLinkedList().new Solution();
-        ListNode listNode = new ListNode(1,new ListNode(2,new ListNode(3,null)));
-        ListNode listNode1 = solution.reverseList(listNode);
+        ListNode listNode = new ListNode(1,new ListNode(2,new ListNode(3,new ListNode(4, new ListNode(5)))));
+        ListNode listNode1 = solution.reversePartList(listNode,3);
         System.out.println("listNode1 = " + listNode1);
         // TO TEST
     }
@@ -56,15 +56,35 @@ public class P206ReverseLinkedList{
 
 class Solution {
     public ListNode reverseList(ListNode head) {
-       ListNode current = head;
-       ListNode pre =null;
-       while (current!=null){
-           ListNode nextNode = current.next;
-           current.next = pre;
-           pre = current;
-           current = nextNode;
+        if( head.next==null){
+            return head;
+        }
+        //每次递归拿到下一个尾结点
+        ListNode tail = reverseList(head.next);
+
+        head.next.next = head;
+        head.next = null;
+        //这个tail能保证一直指向一个元素，只是长度不一致
+        return tail;
+    }
+
+    /**
+     * 后继节点
+     */
+    ListNode successor = null;
+
+    public ListNode reversePartList(ListNode head,int n) {
+       // 递归终止条件变为到达指定位置
+       if(n==1){
+           successor = head. next;
+           return head;
        }
-       return pre;
+        // 这里还是要执行递归的
+        ListNode tail = reversePartList(head.next, n - 1);
+        head.next.next = head;
+
+        head.next = successor;
+        return tail;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

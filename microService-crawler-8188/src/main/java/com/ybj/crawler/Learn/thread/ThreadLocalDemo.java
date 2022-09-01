@@ -1,5 +1,7 @@
 package com.ybj.crawler.Learn.thread;
 
+import com.alibaba.ttl.TransmittableThreadLocal;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -15,6 +17,8 @@ public class ThreadLocalDemo {
     String localVariable = "hello";
 
     public static void main(String[] args) {
+        new TransmittableThreadLocal();
+        final InheritableThreadLocal<String> inheritableThreadLocal = new InheritableThreadLocal<>();
         ThreadLocalDemo threadLocalDemo = new ThreadLocalDemo();
         ExecutorService executorService = Executors.newCachedThreadPool();
         for(int i = 0; i < 10; i++) {

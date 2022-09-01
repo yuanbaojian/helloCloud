@@ -95,7 +95,28 @@ public class P142LinkedListCycleIi{
  * }
  */
 public class Solution {
+
+
     public ListNode detectCycle(ListNode head) {
+        //快2慢1
+        ListNode fast = head;
+        ListNode slow = head;
+        while (fast!=null && fast.next !=null){
+            slow = slow.next;
+            fast =fast.next;
+            if(fast.next!=null){
+                fast = fast.next;
+            }
+            //快 = 慢，说明成环了
+            if(slow == fast){
+                return fast;
+            }
+        }
+        //说明无环
+        return null;
+    }
+
+    public ListNode detectCycle2(ListNode head) {
         Set<ListNode> listNodeSet= new HashSet<>();
         while (head!=null){
             if(listNodeSet.contains(head)){

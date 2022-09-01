@@ -1,9 +1,7 @@
 package com.ybj.crawler.Learn.thread.Sync.Lock;
 
-import com.baomidou.mybatisplus.extension.api.R;
 import org.junit.jupiter.api.Test;
 
-import javax.annotation.security.RunAs;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -41,6 +39,20 @@ public class ReentrantLockDemo {
                 reentrantLockDemo.syncMethod2();
             }
         });
+    }
+
+    @Test
+    public void test(){
+        ReentrantLock reentrantLock = new ReentrantLock(false);
+        for (int i = 0; i < 5; i++) {
+            try {
+                reentrantLock.lock();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        System.out.println("reentrantLock = " + reentrantLock);
+
     }
 
 
