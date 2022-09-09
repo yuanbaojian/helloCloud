@@ -1,5 +1,8 @@
 package leetcode.editor.cn;
 
+import lombok.Data;
+
+@Data
 public class TreeNode {
     int val;
     TreeNode left;
@@ -10,5 +13,10 @@ public class TreeNode {
         this.val = val;
         this.left = left;
         this.right = right;
+    }
+
+    public boolean equals(TreeNode obj) {
+
+        return obj.val == this.val;
     }
 }
