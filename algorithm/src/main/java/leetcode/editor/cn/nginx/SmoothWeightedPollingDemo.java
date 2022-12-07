@@ -111,4 +111,13 @@ public class SmoothWeightedPollingDemo {
         System.out.println("countMap = " + countMap.toString());
     }
 
+    public boolean checkUsernameOrPassword(String str){
+        return str!=null && str.length()>5 && str.length()<18;
+    }
+
+    public boolean checkPassword(String str){
+        boolean checkLen = str != null && str.length() > 5 && str.length() < 18;
+        return checkLen&&(false);
+    }
+
 }

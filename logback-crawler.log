@@ -1,7 +1,68 @@
-2021-05-11 17:23:33.621  INFO 2894 --- [restartedMain] com.ybj.crawler.CrawlerApplication       : The following profiles are active: ybj
-2021-05-11 17:23:34.805  INFO 2894 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
-2021-05-11 17:23:34.808  INFO 2894 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
-2021-05-11 17:23:34.857  INFO 2894 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 34ms. Found 0 Redis repository interfaces.
-2021-05-11 17:23:35.147  WARN 2894 --- [restartedMain] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.ybj.*.*.dao.*]' package. Please check your configuration.
-2021-05-11 17:23:35.395  INFO 2894 --- [restartedMain] o.s.cloud.context.scope.GenericScope     : BeanFactory id=31c30dad-9a60-32bb-8778-1db6cb9b0ca5
-2021-05-11 17:23:35.539  INFO 2894 --- [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'threadConfig' of type [com.ybj.crawler.config.ThreadConfig$$EnhancerBySpringCGLIB$$6c605083] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-11-25 15:19:14.713  INFO 87048 --- [主线程] com.ybj.crawler.controller.StateTest          : The following profiles are active: ybj
+2022-11-25 15:19:17.296  INFO 87048 --- [主线程] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-11-25 15:19:17.303  INFO 87048 --- [主线程] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2022-11-25 15:19:17.362  INFO 87048 --- [主线程] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 16ms. Found 0 Redis repository interfaces.
+2022-11-25 15:19:17.833  WARN 87048 --- [主线程] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.ybj.crawler.controller]' package. Please check your configuration.
+2022-11-25 15:19:17.961  INFO 87048 --- [主线程] o.s.cloud.context.scope.GenericScope     : BeanFactory id=38cb2725-945c-3ced-bb06-9584d9fb4da2
+2022-11-25 15:19:18.770  INFO 87048 --- [主线程] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8188 (http)
+2022-11-25 15:19:18.787  INFO 87048 --- [主线程] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-11-25 15:19:18.787  INFO 87048 --- [主线程] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.36]
+2022-11-25 15:19:18.960  INFO 87048 --- [主线程] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-11-25 15:19:18.961  INFO 87048 --- [主线程] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4199 ms
+2022-11-25 15:19:19.063  WARN 87048 --- [主线程] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'folderController': Unsatisfied dependency expressed through field 'folderService'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.ybj.crawler.service.FolderService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+2022-11-25 15:19:19.065  INFO 87048 --- [主线程] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2022-11-25 15:19:19.101  INFO 87048 --- [主线程] ConditionEvaluationReportLoggingListener : 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2022-11-25 15:19:19.507 ERROR 87048 --- [主线程] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Field folderService in com.ybj.crawler.controller.FolderController required a bean of type 'com.ybj.crawler.service.FolderService' that could not be found.
+
+The injection point has the following annotations:
+	- @org.springframework.beans.factory.annotation.Autowired(required=true)
+
+
+Action:
+
+Consider defining a bean of type 'com.ybj.crawler.service.FolderService' in your configuration.
+
+2022-11-25 15:20:56.641  INFO 87157 --- [主线程] com.ybj.crawler.controller.StateTest          : The following profiles are active: ybj
+2022-11-25 15:20:57.726  INFO 87157 --- [主线程] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-11-25 15:20:57.730  INFO 87157 --- [主线程] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2022-11-25 15:20:57.760  INFO 87157 --- [主线程] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 7ms. Found 0 Redis repository interfaces.
+2022-11-25 15:20:57.998  WARN 87157 --- [主线程] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.ybj.crawler.controller]' package. Please check your configuration.
+2022-11-25 15:20:58.076  INFO 87157 --- [主线程] o.s.cloud.context.scope.GenericScope     : BeanFactory id=38cb2725-945c-3ced-bb06-9584d9fb4da2
+2022-11-25 15:20:58.482  INFO 87157 --- [主线程] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8188 (http)
+2022-11-25 15:20:58.494  INFO 87157 --- [主线程] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-11-25 15:20:58.494  INFO 87157 --- [主线程] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.36]
+2022-11-25 15:20:58.638  INFO 87157 --- [主线程] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-11-25 15:20:58.639  INFO 87157 --- [主线程] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1963 ms
+2022-11-25 15:20:58.701  WARN 87157 --- [主线程] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'ipBeanController': Unsatisfied dependency expressed through field 'ipBeanService'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.ybj.crawler.service.IpBeanService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+2022-11-25 15:20:58.702  INFO 87157 --- [主线程] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2022-11-25 15:20:58.731  INFO 87157 --- [主线程] ConditionEvaluationReportLoggingListener : 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2022-11-25 15:20:58.917 ERROR 87157 --- [主线程] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Field ipBeanService in com.ybj.crawler.controller.IpBeanController required a bean of type 'com.ybj.crawler.service.IpBeanService' that could not be found.
+
+The injection point has the following annotations:
+	- @org.springframework.beans.factory.annotation.Autowired(required=true)
+
+
+Action:
+
+Consider defining a bean of type 'com.ybj.crawler.service.IpBeanService' in your configuration.
+

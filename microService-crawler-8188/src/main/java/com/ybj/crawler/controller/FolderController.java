@@ -23,17 +23,5 @@ import java.util.List;
 @RequestMapping("/folder")
 public class FolderController {
 
-    @Autowired
-    FolderService folderService;
-
-    @Autowired
-    FolderMapper folderMapper;
-
-    @GetMapping("/getAll")
-    public List<Folder> getAll(){
-        List<Folder> folderList = folderMapper.getAll();
-        return folderList;
-    }
-
 }
 

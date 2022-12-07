@@ -8,9 +8,8 @@ spring:
   profiles:
     active: ybj
   redis:
-    host: yuanbaojian.xyz
-    port: 6379
-    password: 312ybj
+    host: 10.130.84.109
+    port: 4021
     database: 0
     jedis:
       pool:
