@@ -1,0 +1,43 @@
+@startuml
+!theme aws-orange
+
+
+autonumber
+
+
+actor "业务系统" as sdk
+participant "消息中心" as mc #orange
+participant "redis" as rd
+database "database" as db
+
+participant "MQ" as mq
+participant "渠道中心" as cc
+
+sdk -> mc: 发送消息
+mc -> rd: 限流 & 黑白名单校验
+alt 被限制
+    mc -> sdk: 返回失败
+else 未被限制
+    group 消息初始化
+        mc -> db: 持久化消息
+        mc -> mq: 发送mq
+        mq -> mc: 接受mq
+        mc -> mc: 处理消息
+    end
+
+    group 消息投递
+        par
+            mc -> mq: 邮件
+            mc -> mq: 短信
+            mc -> mq: 站内信
+        end
+    end
+
+    group 消息消费
+        mq -> cc: 获得消息
+        cc -> cc: 具体具体邮件发送
+    end
+end
+
+
+@enduml
