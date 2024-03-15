@@ -2,6 +2,8 @@ package com.ybj.crawler.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ybj.crawler.model.IpBean;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 
 import java.io.IOException;
 import java.util.List;
@@ -61,4 +63,11 @@ public interface IpBeanService extends IService<IpBean> {
     void expandNumber(IpBean ipBean);
 
     String getIpFromFreeProxy() throws IOException, ExecutionException, InterruptedException;
+
+    /**
+     * 测试重试
+     * @return java.lang.Boolean
+     */
+    @Retryable(value = {Exception.class},maxAttempts = 5,backoff = @Backoff(delay = 1000L))
+    Boolean testRetryable() throws Exception;
 }

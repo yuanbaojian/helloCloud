@@ -20,24 +20,29 @@ public class StateTest {
 
 
     @Test
-    public void test(){
+    public  void test() {
         Thread.currentThread().setName("主线程");
         orderService.create();
         orderService.create();
-        orderService.pay(1);
-        new Thread("客户线程") {
-            @Override
-            public void run() {
-                orderService.deliver(1);
-                orderService.receive(1);
-            }
-        }.start();
+        // orderService.pay(1);
+        // new Thread("客户线程") {
+        //     @Override
+        //     public void run() {
+        //         orderService.deliver(1);
+        //         orderService.receive(1);
+        //     }
+        // }.start();
+        //
+        // orderService.pay(2);
+        // orderService.deliver(2);
+        // orderService.receive(2);
 
-        orderService.pay(2);
-        orderService.deliver(2);
-        orderService.receive(2);
+        orderService.pay(1);
+        orderService.deliver(1);
+        orderService.receive(1);
 
         System.out.println("全部订单状态：" + orderService.getOrders());
     }
+
 
 }

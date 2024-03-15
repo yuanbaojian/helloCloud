@@ -27,7 +27,7 @@ spring:
 
   datasource:
     username: test
-    password: tezign
+    password:  dd
     url: jdbc:mysql://10.80.82.13:3306/tenant_manager?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false
     type: com.alibaba.druid.pool.DruidDataSource
   redis:

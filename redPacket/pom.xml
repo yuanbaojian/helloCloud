@@ -12,11 +12,6 @@
     <artifactId>redPacket</artifactId>
     <dependencies>
 
-        <dependency>
-            <groupId>com.tezign.intelligence</groupId>
-            <artifactId>common</artifactId>
-            <version>1.14.1.RELEASE</version>
-        </dependency>
 
         <dependency>
             <groupId>redis.clients</groupId>

@@ -28,8 +28,11 @@ public class TestController {
     IpBeanService ipBeanService;
 
 
-    @RequestMapping("/hello")
+
+
+    @GetMapping("/hello")
     public String test(){
+
         return "hello";
     }
 
@@ -54,5 +57,10 @@ public class TestController {
         System.out.println("duration.toMillis() = " + duration.toMillis());
         log.info("------------------线程执行完毕，计算执行时间结束---------------------");
         return JsonResult.ok("抢红包成功");
+    }
+
+    @GetMapping("/retryable")
+    public JsonResult testRetryable() throws Exception {;
+        return JsonResult.ok(ipBeanService.testRetryable());
     }
 }

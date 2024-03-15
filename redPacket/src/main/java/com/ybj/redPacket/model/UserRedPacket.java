@@ -19,8 +19,8 @@ import lombok.experimental.Accessors;
  * @since 2020-06-08
  */
 @Data
-  @EqualsAndHashCode(callSuper = false)
-  @Accessors(chain = true)
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
 @TableName("t_user_red_packet")
 public class UserRedPacket implements Serializable {
 

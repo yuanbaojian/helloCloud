@@ -38,7 +38,7 @@ public class ProxyPool {
     public static String getURLSource(URL url) throws Exception {
         // 创建代理服务器
         System.setProperty("http.proxyHost", "127.0.0.1");
-        System.setProperty("http.proxyPort", "8080");
+        //System.setProperty("http.proxyPort", "8080");
 //        InetSocketAddress addr = new InetSocketAddress("127.0.0.1", 8080);
 //        Proxy proxy = new Proxy(Proxy.Type.HTTP, addr); // Socket 代理
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();

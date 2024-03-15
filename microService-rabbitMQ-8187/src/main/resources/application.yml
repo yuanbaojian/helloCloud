@@ -4,6 +4,16 @@ server:
     uri-encoding: UTF-8
     max-connections: 200000
 spring:
+  cloud:
+    stream:
+      bindings:
+        pulsarOutput:
+          destination: your-pulsar-topic
+        pulsarInput:
+          destination: your-pulsar-topic
+      pulsar:
+        binder:
+          brokers: pulsar://localhost:6650
   application:
     name: Spring-boot-rabbitmq
   rabbitmq:
@@ -69,3 +79,11 @@ feign:
         connectTimeout: 30000
         readTimeout: 30000
         loggerLevel: basic
+
+eureka.client.enabled: false
+
+pulsar:
+  serviceUrl: pulsar://localhost:6650
+  topic: persistent://public/default/my-topic
+
+

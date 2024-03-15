@@ -12,6 +12,9 @@ public class BusniessConstants {
     /** 分页总记录数*/
     public static final String TOTAL_COUNT = "total";
 
+
+    public static final String version2 = "version2";
+
     /** 工艺数据编号流水号长度 */
     public static final int NUMBER_LENGTH = 8;
 

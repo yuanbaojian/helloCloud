@@ -1,7 +1,6 @@
 package com.ybj.user.service;
 
 import com.rabbitmq.client.Channel;
-import com.sun.media.jfxmedia.logging.Logger;
 import com.ybj.user.model.Message;
 import com.ybj.user.model.User;
 import lombok.extern.slf4j.Slf4j;

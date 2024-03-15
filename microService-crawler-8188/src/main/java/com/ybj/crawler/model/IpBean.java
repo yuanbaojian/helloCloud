@@ -19,9 +19,9 @@ import java.util.Objects;
  * @author ybj
  * @since 2020-02-10
  */
-@Data
 @Accessors(chain = true)
 @TableName("TBL_IP_BEAN")
+@Data
 public class IpBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -39,6 +39,51 @@ public class IpBean implements Serializable {
 
     private String protocolType;
 
+    public String getID() {
+        return ID;
+    }
 
+    public void setID(String ID) {
+        this.ID = ID;
+    }
 
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+    }
+
+    public Integer getIpPort() {
+        return ipPort;
+    }
+
+    public void setIpPort(Integer ipPort) {
+        this.ipPort = ipPort;
+    }
+
+    public String getServerAddress() {
+        return serverAddress;
+    }
+
+    public void setServerAddress(String serverAddress) {
+        this.serverAddress = serverAddress;
+    }
+
+    public String getAnonyType() {
+        return anonyType;
+    }
+
+    public void setAnonyType(String anonyType) {
+        this.anonyType = anonyType;
+    }
+
+    public String getProtocolType() {
+        return protocolType;
+    }
+
+    public void setProtocolType(String protocolType) {
+        this.protocolType = protocolType;
+    }
 }

@@ -9,6 +9,7 @@ public class CompletionServiceDemo {
     {
         batchTaskDefect();
     }
+
     private static void batchTaskDefect()
     {
         // 定义ExecutorService

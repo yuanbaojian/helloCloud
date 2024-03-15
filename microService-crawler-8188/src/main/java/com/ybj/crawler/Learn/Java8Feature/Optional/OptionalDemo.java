@@ -1,10 +1,17 @@
 package com.ybj.crawler.Learn.Java8Feature.Optional;
 
+import cn.hutool.json.JSONUtil;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.checkerframework.checker.units.qual.A;
 import org.testng.annotations.Test;
 
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  *  为了避免nullPointException的错误
@@ -43,10 +50,58 @@ public class OptionalDemo {
     public void testNullPointException(){
         Person person=new Person();
         person.setName("张三");
+        // person.setAddress(new Address("中国"));
+        Address address = Optional.ofNullable(person.getAddress()).orElse(new Address("中国"));
+        Optional.ofNullable(person.getAddress()).map(Address::getLocation).ifPresent(location -> System.out.println("location = " + location));
+        System.out.println("address = " + address);
 //        Address address=new Address();
 //        address.setLocation("EARTH");
 //        person.setAddress(address);
-        OptionalDemo.printPersonAddressV1(person);
+//         OptionalDemo.printPersonAddressV1(person);
+    }
+
+    @Test
+    public void testMap(){
+        String orderData = "{}";
+        Map map = Optional.ofNullable(orderData)
+                .map(e -> JSONUtil.toBean(e, Map.class))
+                .map(e -> {
+                    e.put("comfirm", "comfirm");
+                    return e;
+                }).get();
+        System.out.println("map = " + map);
+
+        Object o = Optional.ofNullable(orderData)
+                .map(e -> JSONUtil.toBean(e, Map.class))
+                .map(e -> e.put("comfirm", "comfirm")).get();
+
+        System.out.println("o = " + o);
+    }
+
+    @Test
+    public void testMapBetweenStream(){
+        String orderData = "{}";
+        Object o = Optional.ofNullable(orderData)
+                .map(e -> JSONUtil.toBean(e, Map.class))
+                .map(e -> {
+                    e.put("comfirm", "comfirm");
+                    return e;
+                }).get();
+        System.out.println("o = " + o);
+
+        Object error1 = Optional.ofNullable(orderData)
+                .map(e -> JSONUtil.toBean(e, Map.class))
+                .map(e -> {
+                    Object put = e.put("comfirm", "comfirm");
+                    return put;
+                }).get();
+
+        // 省略的return，表示直接放回当前行的返回值
+        Object error2 = Optional.ofNullable(orderData)
+                .map(e -> JSONUtil.toBean(e, Map.class))
+                .map(e -> e.put("comfirm", "comfirm"))
+                .get();
+
     }
 
 
@@ -103,6 +158,8 @@ class Person{
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 class Address{
     String location;
 }

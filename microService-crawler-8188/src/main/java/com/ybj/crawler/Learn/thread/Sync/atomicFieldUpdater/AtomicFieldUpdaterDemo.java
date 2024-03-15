@@ -1,6 +1,5 @@
 package com.ybj.crawler.Learn.thread.Sync.atomicFieldUpdater;
 
-import javafx.scene.control.Alert;
 import lombok.Getter;
 
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;

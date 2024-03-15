@@ -38,6 +38,14 @@ public class JsonResult extends HashMap<String, Object> {
 		return baseReturn;
 	}
 
+	public static JsonResult ok(Object message) {
+		JsonResult baseReturn = new JsonResult();
+		baseReturn.put(SUCCESS, true);
+		baseReturn.put(STATUS, OK);
+		baseReturn.put(MESSAGE, message);
+		return baseReturn;
+	}
+
 	public static JsonResult ok(int status, String message) {
 		JsonResult baseReturn = new JsonResult();
 		baseReturn.put(SUCCESS, true);

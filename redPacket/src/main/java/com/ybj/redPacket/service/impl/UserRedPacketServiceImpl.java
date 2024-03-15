@@ -1,5 +1,6 @@
 package com.ybj.redPacket.service.impl;
 
+import com.baomidou.mybatisplus.extension.api.R;
 import com.ybj.redPacket.dao.RedPacketMapper;
 import com.ybj.redPacket.model.RedPacket;
 import com.ybj.redPacket.model.UserRedPacket;
@@ -7,12 +8,16 @@ import com.ybj.redPacket.dao.UserRedPacketMapper;
 import com.ybj.redPacket.redPacket;
 import com.ybj.redPacket.service.UserRedPacketServiceI;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronizationAdapter;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -33,6 +38,9 @@ public class UserRedPacketServiceImpl extends ServiceImpl<UserRedPacketMapper, U
 
     @Autowired
     UserRedPacketMapper userRedPacketMapper;
+
+    @Autowired
+    RedissonClient redissonClient;
 
     /**
     * <p> 乐观锁 使用version字段控制 </p>
@@ -131,5 +139,43 @@ public class UserRedPacketServiceImpl extends ServiceImpl<UserRedPacketMapper, U
         }
         return 0;
     }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void fun() {
+        RLock lock = redissonClient.getLock("lock");
+
+
+        lock.tryLock();
+
+        lock.unlock();
+
+
+
+
+        try {
+            String key = "";
+            // 获取锁
+            if (lock.tryLock()) {
+                // 业务逻辑处理
+            }else {
+                // 未获得锁
+                throw new RuntimeException("未获得锁");
+            }
+        }catch (Exception e){
+            // 释放锁，抛出异常
+            lock.unlock();
+            throw e;
+        }finally {
+            TransactionSynchronizationManager.registerSynchronization(
+                    new TransactionSynchronizationAdapter() {
+                        @Override
+                        public void afterCommit() {
+                            // 释放锁
+                            lock.unlock();
+                        }
+                    });
+        }
+    }
+
 
 }

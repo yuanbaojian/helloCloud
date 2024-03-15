@@ -2,6 +2,7 @@ package com.ybj.crawler.service.impl;
 
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ybj.auth.feign.UserServiceApi;
 import com.ybj.crawler.dao.IpBeanMapper;
 import com.ybj.crawler.model.IpBean;
 import com.ybj.crawler.service.IpBeanAsyncService;
@@ -49,6 +50,9 @@ public class IpBeanServiceImpl extends ServiceImpl<IpBeanMapper, IpBean> impleme
 
     @Autowired
     IpBeanAsyncService ipBeanAsyncService;
+
+    @Autowired
+    UserServiceApi userServiceApi;
 
     // 默认爬取前两页
     private final Integer pageNumber = 1;
@@ -221,6 +225,14 @@ public class IpBeanServiceImpl extends ServiceImpl<IpBeanMapper, IpBean> impleme
         log.info("准备爬取 {}", websiteURL);
         //这个方法不是异步的！！！！
         String result = getIpFromFreePoxy(websiteURL);
+        return result;
+    }
+
+    @Override
+    public Boolean testRetryable() throws Exception {
+        log.info("正在请求testRetryable");
+        Boolean result = userServiceApi.checkUser("ybj");
+        log.info("请求testRetryable结束 result: {}", result);
         return result;
     }
 

@@ -1,7 +1,6 @@
 package com.ybj.redPacket.controller;
 
 
-import com.tezign.intelligence.common.util.RedisLock;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -49,12 +48,7 @@ public class MessageController {
 
     @PostMapping("/redisTest")
     public void testRedis(){
-        RedisLock redisLock = new RedisLock(stringRedisTemplate, "key");
-        int i = 1;
-        while(true){
-            boolean result = redisLock.lockBlock();
-            log.info("{} 中 result 为 {}", i++,result);
-        }
+
 
     }
 

@@ -1,3 +1,6 @@
+server:
+  port: 8081
+
 spring:
   mail:
     host: smtp.qq.com
@@ -14,11 +17,13 @@ spring:
           timeout: 5000
           writetimeout: 5000
   datasource:
-    username: yuanbaojian
-    password: 312ybj
-    url: jdbc:mysql://yuanbaojian.xyz:3306/helloWorld?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone = GMT%2B8
+    username: payment
+    password: 6qpxxKxZxY
+    url: jdbc:mysql://10.98.32.160:6301/payment_center?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true
     type: com.alibaba.druid.pool.DruidDataSource
 logging:
   file:
     name: logback-crawler.log
     path: ./
+
+

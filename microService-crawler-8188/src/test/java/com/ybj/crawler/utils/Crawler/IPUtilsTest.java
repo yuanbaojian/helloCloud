@@ -30,7 +30,7 @@ class IPUtilsTest {
     public void test(){
         IPUtils instance = IPUtils.getInstance();
         IpBean ipBean = new IpBean();
-        ipBean.setIpAddress("188.165.141.114").setIpPort(3129);
+        ipBean.setIpAddress("188.165.141.114");
         boolean result = instance.checkIpAvailable(ipBean);
         System.out.println("result = " + result);
     }

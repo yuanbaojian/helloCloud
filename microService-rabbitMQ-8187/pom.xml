@@ -13,6 +13,19 @@
 
     <dependencies>
 
+        <dependency>
+            <groupId>org.apache.pulsar</groupId>
+            <artifactId>pulsar-client</artifactId>
+            <version>2.9.0</version> <!-- 使用适合您的 Pulsar 版本 -->
+        </dependency>
+
+            <!-- Spring Cloud Stream with Apache Pulsar Binder -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-stream-binder-pulsar</artifactId>
+        </dependency>
+
+
         <!-- rabbitmq -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -131,6 +144,12 @@
                     <groupId>org.hdrhistogram</groupId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.8.4</version>
+            <scope>compile</scope>
         </dependency>
 
     </dependencies>

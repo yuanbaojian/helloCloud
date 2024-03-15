@@ -16,10 +16,19 @@ public class ThreadLocalDemo {
 
     String localVariable = "hello";
 
+    ThreadLocal<String> tenantId = new ThreadLocal<>();
+
+    public static InheritableThreadLocal<String> inheritableTenantId = new InheritableThreadLocal<>();
+
     public static void main(String[] args) {
         new TransmittableThreadLocal();
         final InheritableThreadLocal<String> inheritableThreadLocal = new InheritableThreadLocal<>();
         ThreadLocalDemo threadLocalDemo = new ThreadLocalDemo();
+
+        Thread
+        inheritableTenantId.set("t1");
+        String s = inheritableTenantId.get();
+        inheritableThreadLocal.remove();
         ExecutorService executorService = Executors.newCachedThreadPool();
         for(int i = 0; i < 10; i++) {
             int finalI = i;

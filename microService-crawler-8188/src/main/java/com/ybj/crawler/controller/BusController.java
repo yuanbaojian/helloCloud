@@ -1,6 +1,7 @@
 package com.ybj.crawler.controller;
 
 
+import com.ybj.api.constant.BusniessConstants;
 import com.ybj.api.model.JsonResult;
 import com.ybj.crawler.common.Constants;
 import com.ybj.crawler.model.BusInfo;
@@ -32,6 +33,7 @@ public class BusController {
 
     @RequestMapping(value = "/getAllIp", method = RequestMethod.POST)
     public List<IpBean> getAllIp() throws IOException {
+        String version2 = BusniessConstants.version2;
         List<IpBean> IpBeanList = null;
         IpBeanList = IPCrawler.getIpList(Constants.HTTPS_URL, 1);
         return IpBeanList;
