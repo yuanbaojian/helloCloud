@@ -1,0 +1,24 @@
+@startuml
+!theme aws-orange
+
+start
+:判断是否需要扩容\n(元素数量 > 容量 * 加载因子);
+if (是) then (yes)
+  :创建新数组（容量翻倍）;
+  :初始化迁移元素的计数器;
+  while (还有未迁移的元素) is (yes)
+    :选择下一个桶;
+    if (桶不为空) then (yes)
+      :重新计算桶中每个元素的索引位置;
+      :将元素迁移到新数组的对应位置;
+    endif
+    :更新迁移元素的计数器;
+  endwhile
+  :用新数组替换旧数组;
+  :更新HashMap的容量;
+else (no)
+  :继续使用当前数组;
+endif
+stop
+
+@enduml

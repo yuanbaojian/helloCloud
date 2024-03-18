@@ -24,7 +24,7 @@ public class RedissonLock {
         boolean b = rateLimiter.tryAcquire();
 
         redissonClient.getSemaphore("test").tryAcquire();
-        RedissonRateLimiter rateLimiter = new RedissonRateLimiter(redissonClient);
+        // RedissonRateLimiter rateLimiter = new RedissonRateLimiter(redissonClient);
     }
 
 }

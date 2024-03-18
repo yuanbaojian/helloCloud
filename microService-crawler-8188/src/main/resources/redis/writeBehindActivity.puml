@@ -1,0 +1,9 @@
+@startuml
+!theme aws-orange
+
+start
+:写请求;
+:更新缓存数据;
+:异步批量写入数据库;
+stop
+@enduml

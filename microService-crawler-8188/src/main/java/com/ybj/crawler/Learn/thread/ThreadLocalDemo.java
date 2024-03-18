@@ -25,7 +25,6 @@ public class ThreadLocalDemo {
         final InheritableThreadLocal<String> inheritableThreadLocal = new InheritableThreadLocal<>();
         ThreadLocalDemo threadLocalDemo = new ThreadLocalDemo();
 
-        Thread
         inheritableTenantId.set("t1");
         String s = inheritableTenantId.get();
         inheritableThreadLocal.remove();

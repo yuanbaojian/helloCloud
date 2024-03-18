@@ -1,0 +1,20 @@
+@startuml
+!theme aws-orange
+
+start
+:读请求;
+if (缓存中有数据?) then (yes)
+  :返回缓存数据;
+else (no)
+  :从数据库加载数据;
+  :将数据写入缓存;
+  :返回数据;
+endif
+stop
+
+start
+:写请求;
+:同步写入数据库;
+:更新缓存数据;
+stop
+@enduml

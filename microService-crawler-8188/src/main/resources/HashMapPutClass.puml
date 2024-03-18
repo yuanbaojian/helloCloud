@@ -1,0 +1,34 @@
+@startuml
+!theme aws-orange
+
+class HashMap {
+    - Node[] table
+    - int size
+    - int threshold
+    - float loadFactor
+
+    + put(Object key, Object value) : Object
+}
+
+class Node {
+    - int hash
+    - Object key
+    - Object value
+    - Node next
+}
+
+HashMap -- Node
+
+note left of HashMap::put
+    1. Calculate hash code
+    2. Calculate bucket index
+    3. Check if bucket is empty
+    4. If bucket is empty, create new node
+    5. If bucket is not empty, handle collision
+    6. Increment size
+    7. Check if resize is needed
+    8. If resize is needed, resize table
+    9. Return old value
+end note
+
+@enduml

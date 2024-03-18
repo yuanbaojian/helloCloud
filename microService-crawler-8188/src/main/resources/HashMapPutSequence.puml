@@ -1,0 +1,48 @@
+@startuml
+
+!theme aws-orange
+
+autonumber
+
+participant HashMap
+participant Node
+participant "Calculate hash code" as step1
+participant "Calculate bucket index" as step2
+participant "Check if bucket is empty" as step3
+participant "Create new node" as step4a
+participant "Handle collision" as step4b
+participant "Increment size" as step5
+participant "Check if resize is needed" as step6
+participant "Resize table" as step7
+participant "Return old value" as step8
+
+HashMap -> HashMap: put(key, value)
+activate HashMap
+
+HashMap -> step1: Call hashCode()
+activate step1
+step1 -> step2: Calculate index
+activate step2
+step2 -> step3: Get bucket
+activate step3
+step3 -> step4a: Bucket is empty?
+activate step4a
+step4a -> step5: Create new node
+activate step5
+step5 -> step6: Increment size
+activate step6
+step6 -> step7: Check threshold
+activate step7
+step7 -> step8: Resize needed?
+activate step8
+step8 -> HashMap: Return old value
+deactivate step8
+deactivate step7
+deactivate step6
+deactivate step5
+deactivate step4a
+step3 --> HashMap: Return value
+deactivate step3
+deactivate step2
+deactivate step1
+@enduml

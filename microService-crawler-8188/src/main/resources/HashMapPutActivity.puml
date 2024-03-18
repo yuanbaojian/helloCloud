@@ -1,0 +1,31 @@
+@startuml
+!theme aws-orange
+
+
+start
+:计算key的hashCode;
+:应用hash函数处理hashCode\n以减少冲突;
+:根据处理后的hashCode\n计算数组索引;
+if (指定索引处无节点?) then (yes)
+  :在该位置创建新节点\n存储键值对;
+else (no)
+  if (节点键与待插入键相同?) then (yes)
+    :替换节点的值;
+  else (no)
+    if (节点为树节点?) then (yes)
+      :按红黑树规则添加节点;
+    else (no)
+      :遍历链表\n找到末尾或相同键;
+      if (找到相同键?) then (yes)
+        :替换节点的值;
+      else (no)
+        :在链表末尾添加新节点;
+      endif
+    endif
+  endif
+endif
+:检查是否需要扩容\n并进行扩容操作;
+:更新结构修改次数;
+stop
+
+@enduml
