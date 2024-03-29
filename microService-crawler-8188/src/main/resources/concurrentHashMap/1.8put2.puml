@@ -1,0 +1,30 @@
+@startuml
+!theme aws-orange
+
+start
+:1. 计算key的哈希值并定位到桶;
+while (2. 检查无限循环条件) is (无限循环)
+  if (3. 桶未初始化或为空?) then (是)
+    :3.1 初始化桶;
+  elseif (4. 目标桶为空?) then (是)
+    :4.1 尝试通过CAS插入新节点;
+    if (4.2 CAS成功?) then (是)
+      :4.3 break; (插入成功，退出循环);
+    else (否)
+      :4.4 其他线程正在操作;
+    endif
+  elseif (5. 遇到Forwarding Node?) then (是)
+    :5.1 协助扩容并迁移数据;
+  else (否)
+    :6. 锁定首节点;
+    if (7. 在桶中插入或更新节点?) then (成功)
+      :7.1 break; (更新成功，退出循环);
+    else (需要树化?)
+      :7.2 将链表转换为红黑树;
+    endif
+    :8. 解锁首节点;
+  endif
+endwhile
+:9. 更新计数器并检查是否需要扩容;
+stop
+@enduml

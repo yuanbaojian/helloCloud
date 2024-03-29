@@ -40,6 +40,10 @@ public class Q0658FindKClosestElements{    //给定一个 排序好 的数组 ar
 // 
 // Related Topics 数组 双指针 二分查找 排序 堆（优先队列） 👍 367 👎 0
     public static void main(String[] args) {
+
+        PriorityQueue<String> queue = new PriorityQueue<>( (a,b) -> {
+            return a.length() - b.length();
+        });
         Solution solution = new Q0658FindKClosestElements().new Solution();
         int[] array = {1,2,3,4,5};
         List<Integer> closestElements = solution.findClosestElements(array, 4, 3);

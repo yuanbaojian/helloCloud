@@ -26,7 +26,6 @@ public class ReentrantLockDemo {
 
         ReentrantLockDemo reentrantLockDemo = new ReentrantLockDemo();
 
-
         // 可重入锁测试（Synchronized）
         executorService.submit(new Runnable() {
             @Override

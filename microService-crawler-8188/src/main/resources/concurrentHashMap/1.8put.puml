@@ -1,0 +1,20 @@
+@startuml
+!theme aws-orange
+
+start
+:计算key的哈希值;
+:根据哈希值定位到具体的桶;
+if (尝试CAS插入节点) then (成功)
+  :操作完成;
+else (失败)
+  if (需要锁定节点进行操作) then (是)
+    :使用synchronized锁定节点;
+    :在链表/红黑树中修改数据;
+    :解锁节点;
+  else (否)
+    :参与结构变化操作;
+    :如扩容或链表转红黑树;
+  endif
+endif
+stop
+@enduml

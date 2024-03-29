@@ -1,0 +1,45 @@
+
+@startuml
+!theme aws-orange
+
+
+autonumber
+
+
+actor "kafka" as ka
+participant "go-trade-data-server" as gt #orange
+database "trade_data" as td
+participant "risk-data-compute" as rd
+participant " message-center" as mc
+participant "merchant email" as me
+
+
+ka -> gt: 发送影子数据同步 mq
+
+gt -> gt: 判断 insert or update
+
+group payment
+    gt -> td: 保存影子数据payment_data_payment_order
+end
+
+group refund
+    gt -> td: 保存影子数据payment_data_refund_order
+end
+
+group chargeback
+    gt -> td: 保存影子数据payment_data_chargeback_order
+    gt -> rd: 风控上报
+    rd -> gt: 处理风控上报结果
+    gt -> mc: 发送状态变更邮件mq
+    mc -> me :发送邮件
+end
+
+@enduml
+
+
+
+
+
+
+
+@enduml

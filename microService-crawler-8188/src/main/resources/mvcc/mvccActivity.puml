@@ -1,0 +1,26 @@
+@startuml
+!theme aws-orange
+
+start
+:确定隔离级别;
+if (隔离级别是读未提交?) then (yes)
+  :所有数据版本都可见;
+else (no)
+  :获取数据版本的创建事务ID;
+  if (数据版本由当前事务创建?) then (yes)
+    :数据版本可见;
+  else (no)
+    :使用ReadView进行判断;
+    if (创建事务ID < m_up_limit_id?) then (yes)
+      :数据版本可见;
+    elseif (创建事务ID在m_ids列表中?) then (yes)
+      :数据版本不可见;
+    elseif (创建事务ID > m_low_limit_id?) then (yes)
+      :数据版本不可见;
+    else (no)
+      :数据版本可见;
+    endif
+  endif
+endif
+stop
+@enduml

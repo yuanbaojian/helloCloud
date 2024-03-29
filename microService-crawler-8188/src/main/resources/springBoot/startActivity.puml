@@ -1,0 +1,13 @@
+@startuml Spring Boot Startup Process
+!theme aws-orange
+
+start
+:应用入口;
+:创建SpringApplication对象;
+:运行SpringApplication;
+:执行自动配置;
+:初始化和注册Bean;
+:启动内嵌Web服务器;
+:应用准备就绪;
+stop
+@enduml

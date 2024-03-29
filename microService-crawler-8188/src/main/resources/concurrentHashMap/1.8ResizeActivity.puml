@@ -1,0 +1,26 @@
+@startuml
+!theme aws-orange
+
+start
+:检测是否需要扩容;
+if (需要) then (yes)
+  :尝试使用CAS标记扩容开始;
+  if (成功) then (yes)
+    :分配新数组;
+    fork
+      :每个线程迁移一部分数据;
+      if (遇到未迁移的数据) then (yes)
+        :插入Forwarding Node;
+        :继续迁移数据;
+      endif
+    end fork
+    :等待所有线程完成迁移;
+    :切换到新数组;
+  else (no)
+    :等待其他线程完成扩容;
+  endif
+else (no)
+  :执行普通的插入或更新操作;
+endif
+stop
+@enduml

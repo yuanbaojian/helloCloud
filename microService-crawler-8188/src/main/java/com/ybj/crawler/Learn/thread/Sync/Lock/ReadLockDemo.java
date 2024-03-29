@@ -23,6 +23,7 @@ class Mycahe{
     //可重入的读写锁
     ReentrantReadWriteLock reentrantReadWriteLock = new ReentrantReadWriteLock();
 
+
     /**
     * <p>
      *     写操作
@@ -37,6 +38,8 @@ class Mycahe{
      * @time 11:46
      */
     public void put(String key, String value){
+        HashMap<String, String> stringStringHashMap = new HashMap<>();
+        map.put(key, value);
         reentrantReadWriteLock.writeLock().lock();
         try {
             System.out.println(Thread.currentThread().getName() + " 正在写入 " + value );

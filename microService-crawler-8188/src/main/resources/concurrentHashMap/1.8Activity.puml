@@ -1,0 +1,27 @@
+@startuml
+!theme aws-orange
+
+start
+:计算key的哈希值;
+:根据哈希值定位到具体的桶（Bucket）;
+if (桶为空) then (yes)
+  :尝试通过CAS插入节点;
+  if (CAS成功) then (yes)
+    :操作完成;
+    stop
+  else (no)
+    :锁定桶的头节点;
+  endif
+else (no)
+  :锁定桶的头节点;
+endif
+:检查是否需要转换为红黑树;
+if (是红黑树或转换成功) then (yes)
+  :在红黑树中执行操作;
+else (no)
+  :在链表中执行操作;
+endif
+:操作完成;
+:解锁头节点;
+stop
+@enduml

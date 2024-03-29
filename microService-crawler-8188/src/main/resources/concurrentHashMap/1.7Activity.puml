@@ -1,0 +1,17 @@
+@startuml
+!theme aws-orange
+
+start
+:计算键的哈希值;
+:根据哈希值定位到Segment;
+:在Segment上加锁;
+:根据哈希值的剩余部分定位到具体哈希桶;
+:遍历哈希桶链表;
+if (键已存在) then (yes)
+  :更新值;
+else (no)
+  :在链表中插入新节点;
+endif
+:解锁Segment;
+stop
+@enduml
