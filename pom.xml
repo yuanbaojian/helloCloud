@@ -9,7 +9,7 @@
         <module>microService-eureka-7001</module>
         <module>microService-zuul-8083</module>
         <module>microService-gateWay-8084</module>
-        <module>microService-auth-8085</module>
+<!--        <module>microService-auth-8085</module>-->
         <module>microService-user-8186</module>
 <!--        <module>microService-elasticSearch</module>-->
         <module>microService-rabbitMQ-8187</module>

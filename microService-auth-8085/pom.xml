@@ -15,6 +15,20 @@
 
 
         <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.11.0</version>
+        </dependency>
+
+        <!-- okhttp-sse -->
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp-sse</artifactId>
+            <version>4.11.0</version>
+        </dependency>
+
+
+        <dependency>
             <groupId>com.ybj</groupId>
             <artifactId>microService-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
@@ -90,8 +104,16 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
-
-
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp-sse</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.pulsar</groupId>
+            <artifactId>pulsar-client</artifactId>
+            <version>2.9.0</version>
+            <scope>compile</scope>
+        </dependency>
 
 
     </dependencies>

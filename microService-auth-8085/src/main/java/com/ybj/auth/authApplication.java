@@ -15,7 +15,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  **/
 @MapperScan({"com.ybj.auth.dao"})
 @SpringBootApplication(scanBasePackages = "com.ybj.*")
-@EnableEurekaClient
+//@EnableEurekaClient
 @EnableFeignClients
 public class authApplication {
     public static void main(String[] args) {

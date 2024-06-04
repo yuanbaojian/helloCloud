@@ -45,6 +45,7 @@
 package leetcode.editor.cn;
 
 import java.util.HashMap;
+import java.util.Map;
 
 //Java：两数之和
 public class P1TwoSum{
@@ -52,11 +53,34 @@ public class P1TwoSum{
         Solution solution = new P1TwoSum().new Solution();
         int[] nums =   {11,7,2,15};
         int[] ints = solution.twoSum(nums, 9);
+        /*
+        11 0
+        7  1
+        2  2
+        15 3
+         */
         System.out.println("ints = " + ints);
         // TO TEST
     }
     //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
+
+
+    public int[] twoSum2(int[] nums, int target) {
+        Map<Integer,Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            // 当前值：下标  这样好记点
+            map.put(nums[i],i);
+            if (map.containsKey(target - nums[i])){
+                int[] result = new int[2];
+                result[0] = i;
+                result[1] = map.get(target - nums[i]);
+                return result;
+            }
+        }
+        return null;
+    }
+
     public int[] twoSum(int[] nums, int target) {
         int[] result = new int[2];
 
